@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Sewa Bot — Zavier MD</title>
+<style>
+:root{
+  --bg:#05080c;
+  --card:#0d131a;
+  --card2:#111a23;
+  --white:#f7fbff;
+  --muted:#9eb0bf;
+  --blue:#76d7ff;
+  --blue2:#29b8f2;
+  --line:rgba(118,215,255,.22);
+  --danger:#ff6b7a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    linear-gradient(rgba(5,8,12,.88),rgba(5,8,12,.95)),
+    url("https://u.pone.rs/jbhqczxr.jpg") center/cover fixed;
+  color:var(--white);
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.container{width:min(1050px,94%);margin:auto}
+header{
+  min-height:320px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:35px 0;
+}
+.hero{
+  width:100%;
+  padding:34px 20px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:rgba(8,13,18,.72);
+  backdrop-filter:blur(12px);
+  box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+.hero img{
+  width:125px;height:125px;object-fit:cover;border-radius:22px;
+  border:2px solid var(--blue);
+  box-shadow:0 0 30px rgba(118,215,255,.25);
+}
+.hero h1{font-size:clamp(28px,7vw,50px);margin:18px 0 8px}
+.hero p{color:var(--muted);margin:0}
+.badge{
+  display:inline-block;margin-top:16px;padding:8px 14px;border-radius:999px;
+  background:rgba(118,215,255,.1);border:1px solid var(--line);color:var(--blue)
+}
+section{padding:18px 0 40px}
+.title{text-align:center;margin-bottom:24px}
+.title h2{font-size:28px;margin:0 0 8px}
+.title p{color:var(--muted);margin:0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{
+  background:linear-gradient(145deg,rgba(17,26,35,.96),rgba(7,11,16,.96));
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--blue);
+}
+.card h3{margin:0 0 15px;font-size:21px}
+.price{font-size:18px;line-height:1.9;margin-bottom:15px}
+.price b{color:var(--blue)}
+.features{padding:0;margin:0 0 20px;list-style:none;color:#dce7ef}
+.features li{margin:9px 0}
+.features li::before{content:"✓ ";color:var(--blue);font-weight:bold}
+.btn{
+  width:100%;border:0;border-radius:14px;padding:13px 16px;
+  color:#001018;background:var(--blue);font-weight:800;
+  transition:.2s;
+}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn.secondary{background:transparent;color:var(--blue);border:1px solid var(--line)}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.role h3{margin-top:0}
+.role strong{color:var(--blue)}
+.panel{
+  background:rgba(10,15,21,.92);border:1px solid var(--line);
+  border-radius:24px;padding:22px;margin-top:10px;
+}
+.hidden{display:none!important}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:block;color:#cbd9e3;font-size:14px;margin-bottom:7px}
+input,select{
+  width:100%;padding:13px 14px;border-radius:13px;
+  border:1px solid var(--line);background:#070b10;color:var(--white);outline:none;
+}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(118,215,255,.08)}
+.summary{
+  background:#070b10;border:1px solid var(--line);border-radius:16px;padding:16px;margin:18px 0;
+}
+.row{display:flex;justify-content:space-between;gap:15px;margin:9px 0;color:#cbd9e3}
+.total{font-size:21px;color:var(--blue);font-weight:800;border-top:1px solid var(--line);padding-top:12px}
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pay{
+  border:1px solid var(--line);border-radius:18px;padding:18px;background:#080d13;
+}
+.pay h3{margin-top:0}
+.qris{width:100%;max-width:270px;border-radius:14px;display:block;margin:12px auto}
+.copy{
+  background:transparent;border:1px solid var(--line);color:var(--blue);
+  padding:7px 10px;border-radius:9px;margin-left:5px
+}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.step{padding:17px;border:1px solid var(--line);border-radius:16px;background:#0a1016}
+.step b{display:block;color:var(--blue);font-size:22px;margin-bottom:7px}
+footer{text-align:center;color:var(--muted);padding:30px 10px}
+.toast{
+  position:fixed;left:50%;bottom:28px;transform:translate(-50%,18px) scale(.96);
+  display:flex;align-items:center;gap:10px;width:max-content;max-width:calc(100vw - 34px);
+  box-sizing:border-box;padding:15px 18px;border-radius:18px;
+  color:#eafaff;background:linear-gradient(135deg,rgba(7,39,55,.97),rgba(9,94,120,.97));
+  border:1px solid rgba(106,225,255,.65);box-shadow:0 12px 38px rgba(0,0,0,.42),0 0 24px rgba(46,203,255,.2);
+  font-weight:600;line-height:1.5;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:20000;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);overflow:hidden
+}
+.toast:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(#b9f4ff,#21c8ff);animation:toastGlow 1.2s ease-in-out infinite alternate}
+.toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
+.toast-icon{color:#72e4ff;font-size:20px;animation:toastSpin 2.2s linear infinite;flex:none}
+#toastText{white-space:normal}
+.typing-caret{width:2px;height:1.1em;background:#8deaff;display:inline-block;animation:caretBlink .7s steps(2,end) infinite;flex:none}
+@keyframes caretBlink{50%{opacity:0}}@keyframes toastSpin{to{transform:rotate(180deg)}}@keyframes toastGlow{to{opacity:.35;filter:brightness(1.8)}}
+@media(prefers-reduced-motion:reduce){.toast,.toast-icon,.typing-caret,.toast:before{animation:none;transition:none}}
+@media(max-width:800px){
+  .grid,.roles{grid-template-columns:1fr}
+  .pay-grid,.steps,.form-grid{grid-template-columns:1fr}
+  header{min-height:290px}
+  .hero{padding:27px 15px}
+}
+
+/* DASHBOARD */
+.dashboard-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:22px}
+.dashboard-card{width:min(850px,100%);text-align:center;background:rgba(7,12,18,.88);border:1px solid var(--line);border-radius:30px;padding:30px 22px;box-shadow:0 25px 80px rgba(0,0,0,.55);backdrop-filter:blur(14px)}
+.dashboard-card .dash-logo{width:min(100%,700px);max-height:230px;object-fit:cover;border-radius:22px;border:1px solid var(--line);margin-bottom:22px}
+.dashboard-card h1{font-size:clamp(30px,8vw,58px);margin:0 0 8px}.dashboard-card>p{color:var(--muted);margin:0 0 24px}
+.status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.status{background:#080d13;border:1px solid var(--line);border-radius:16px;padding:15px}.status .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#70e6a4;box-shadow:0 0 12px rgba(112,230,164,.7);margin-right:7px}.status b{display:block;margin-top:8px;color:var(--blue)}
+.dash-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px}.music-box{margin-top:15px;color:var(--muted);font-size:13px}.music-box button{background:transparent;color:var(--blue);border:1px solid var(--line);padding:7px 12px;border-radius:10px;margin-left:5px}
+.modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.78)}.modal.show{display:flex}.modal-box{width:min(620px,100%);max-height:90vh;overflow:auto;background:#0a1016;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 25px 80px rgba(0,0,0,.7)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:15px}.modal-head h2{margin:0}.close{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--white);font-size:22px}.popup-step{display:flex;gap:13px;align-items:flex-start;padding:14px 0;border-bottom:1px solid rgba(118,215,255,.1)}.popup-step:last-child{border-bottom:0}.popup-num{flex:0 0 36px;height:36px;border-radius:11px;background:var(--blue);color:#001018;display:grid;place-items:center;font-weight:900}
+@media(max-width:650px){.status-grid,.dash-buttons{grid-template-columns:1fr}}
+
+/* LOADING SCREEN */
+#loadingScreen{position:fixed;inset:0;z-index:9999;background:#05080c;display:flex;align-items:center;justify-content:center;transition:opacity .5s ease}
+.loader-box{text-align:center;width:min(390px,88%)}
+.pixel-logo{width:120px;height:120px;object-fit:cover;image-rendering:pixelated;border:4px solid var(--blue);border-radius:18px;box-shadow:8px 8px 0 rgba(118,215,255,.12),0 0 35px rgba(118,215,255,.2)}
+.loader-title{font-weight:900;font-size:25px;margin:18px 0 6px;letter-spacing:2px}
+.loader-text{color:var(--muted);font-size:13px;margin-bottom:15px}
+.loader-bar{height:12px;background:#0d151d;border:1px solid var(--line);padding:2px;border-radius:4px}
+.loader-fill{height:100%;width:0;background:var(--blue);transition:width .08s linear;border-radius:2px}
+.loader-percent{color:var(--blue);font-weight:900;margin-top:9px}
+/* PIXEL DASHBOARD */
+.dashboard-card{position:relative;overflow:hidden}
+.pixel-icon{width:58px;height:58px;display:grid;place-items:center;background:#071018;border:2px solid var(--blue);box-shadow:5px 5px 0 rgba(118,215,255,.12);font-size:29px;image-rendering:pixelated}
+.pixel-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.pixel-status{background:#080d13;border:1px solid var(--line);padding:15px;border-radius:12px;text-align:left;display:flex;gap:12px;align-items:center}
+.pixel-status b{display:block;font-size:14px}.pixel-status small{color:var(--muted)}
+.dashboard-note{background:rgba(118,215,255,.06);border:1px dashed var(--line);padding:13px;border-radius:12px;color:var(--muted);font-size:13px;margin-bottom:16px}
+/* PACKAGE / DURATION */
+.package-card{cursor:pointer}.package-card:hover{transform:translateY(-3px)}
+.duration-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-top:15px}
+.duration-btn{background:#080d13;color:var(--white);border:1px solid var(--line);padding:13px 9px;border-radius:12px;font-weight:800}
+.duration-btn:hover{border-color:var(--blue);background:rgba(118,215,255,.08)}
+.duration-btn b{display:block;color:var(--blue);margin-top:4px}
+/* MODAL FORM */
+.modal input,.modal select{margin-bottom:10px}
+.modal .summary{margin-top:12px}
+@media(max-width:650px){.pixel-row{grid-template-columns:1fr}.duration-grid{grid-template-columns:1fr}}
+
+/* V5 DASHBOARD EXPANSION */
+:root{
+  --pixel-font:"Courier New",monospace;
+  --blue3:#bceeff;
+}
+body{font-family:var(--pixel-font),Arial,Helvetica,sans-serif}
+button,input,select{font-family:var(--pixel-font),Arial,Helvetica,sans-serif}
+.dashboard-screen{align-items:flex-start;padding:18px 12px 35px}
+.dashboard-card{width:min(1050px,100%);padding:22px 16px;text-align:left}
+.dashboard-top{text-align:center}
+.dashboard-top .dash-logo{width:min(100%,760px);height:210px;object-fit:cover}
+.dashboard-top h1{letter-spacing:2px}
+.v5-kicker{display:inline-block;color:var(--blue);border:1px dashed var(--line);padding:6px 10px;border-radius:6px;font-size:11px;margin-bottom:12px}
+.v5-section-title{font-size:14px;color:var(--blue);letter-spacing:1px;margin:20px 0 10px}
+.v5-info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.v5-info{background:#080d13;border:1px solid var(--line);padding:14px;border-radius:12px;min-height:90px}
+.v5-info .ico{font-size:22px;margin-bottom:7px}
+.v5-info b{display:block;font-size:12px;margin-bottom:4px}
+.v5-info small{color:var(--muted);line-height:1.45}
+.v5-package-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.v5-package{background:linear-gradient(145deg,#0e1720,#070b10);border:1px solid var(--line);border-radius:14px;padding:15px}
+.v5-package h3{font-size:14px;margin:0 0 8px;color:var(--blue)}
+.v5-package p{margin:5px 0;color:var(--muted);font-size:12px}
+.v5-price{font-size:18px!important;color:var(--white)!important;font-weight:900}
+.v5-actions{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-top:14px}
+.v5-actions .btn{min-height:48px}
+.v5-payment{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.v5-payment-card{background:#080d13;border:1px solid var(--line);border-radius:12px;padding:14px}
+.v5-payment-card b{color:var(--blue)}
+.v5-announcement{border-left:4px solid var(--blue);background:rgba(118,215,255,.055);padding:13px 14px;border-radius:0 12px 12px 0;color:#dce7ef;font-size:12px;line-height:1.55}
+.v5-mini{color:var(--muted);font-size:11px}
+@media(max-width:800px){
+  .v5-info-grid{grid-template-columns:repeat(2,1fr)}
+  .v5-package-grid{grid-template-columns:1fr}
+  .v5-actions{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+  .dashboard-card{padding:18px 12px}
+  .dashboard-top .dash-logo{height:150px}
+  .v5-payment{grid-template-columns:1fr}
+}
+
+
+.promo-box{margin-top:12px;padding:13px;border:1px dashed var(--line);border-radius:13px;background:#080d13}.promo-row{display:grid;grid-template-columns:1fr auto;gap:8px}.promo-row .btn{width:auto}.promo-ok{color:#70e6a4;font-size:12px;margin-top:8px}.promo-bad{color:var(--danger);font-size:12px;margin-top:8px}.payment-only{text-align:center}.payment-only .pay-title{color:var(--blue);font-weight:900;font-size:18px;margin-bottom:10px}.payment-only .copy-big{font-size:20px;font-weight:900;letter-spacing:1px;background:#080d13;border:1px solid var(--line);padding:14px;border-radius:12px;margin:12px 0}.payment-only .qris-payment{width:min(100%,330px);border-radius:14px;display:block;margin:12px auto}.thumb-panel{margin-top:15px;border:1px solid var(--line);border-radius:14px;padding:12px;background:#080d13}.thumb-panel img{display:block;width:100%;height:210px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}.thumb-meta{text-align:center;color:var(--muted);font-size:11px;margin-top:8px}.thanks-icon{font-size:50px;text-align:center;margin:5px 0 12px}@media(max-width:500px){.thumb-panel img{height:160px}.promo-row{grid-template-columns:1fr}}
+.bot-page{display:none;min-height:100vh;padding:22px 0 40px}.bot-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.bot-card{background:linear-gradient(145deg,#111a23,#070b10);border:1px solid var(--line);border-radius:18px;overflow:hidden}.bot-banner{width:100%;height:150px;object-fit:cover}.bot-body{padding:16px}.bot-head{display:flex;gap:12px;align-items:center;margin-bottom:14px}.bot-pp{width:68px;height:68px;object-fit:cover;border-radius:12px;border:2px solid var(--blue)}.bot-body h3{margin:0 0 5px;font-size:16px}.bot-status{display:inline-block;padding:5px 8px;border-radius:7px;color:#70e6a4;border:1px solid rgba(112,230,164,.25);font-size:11px}.bot-offline{color:var(--muted)!important;border-color:var(--line)!important;background:#080d13}.bot-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid rgba(118,215,255,.1);font-size:12px}.bot-row span{color:var(--muted)}.bot-row b{text-align:right}.bot-page-title{text-align:center;margin-bottom:18px}.bot-page-title h2{margin:0 0 7px}.bot-page-title p{color:var(--muted);margin:0}.promo-list{display:grid;gap:10px;margin-top:12px}.promo-item{border:1px solid var(--line);border-radius:12px;padding:12px;background:#080d13}.promo-item b{color:var(--blue)}.back-btn{margin-top:12px}.v5-actions{grid-template-columns:repeat(2,1fr)}@media(max-width:700px){.bot-grid{grid-template-columns:1fr}}
+
+/* =========================
+   V6 PIXEL UI + CLOUD LOADER
+   ========================= */
+:root{
+  --bg:#05090d;
+  --card:#08131b;
+  --card2:#0b1821;
+  --white:#f4fcff;
+  --muted:#9db6c4;
+  --blue:#7cddff;
+  --blue2:#38bff3;
+  --line:rgba(124,221,255,.25);
+  --danger:#ff6878;
+  --pixel-font:"Courier New",monospace;
+}
+body{
+  background:
+    linear-gradient(rgba(5,9,13,.93),rgba(5,9,13,.97)),
+    url("https://u.pone.rs/jbhqczxr.jpg") center/cover fixed;
+  font-family:var(--pixel-font),Arial,sans-serif;
+}
+button,input,select{font-family:var(--pixel-font),Arial,sans-serif}
+.pixel-warning{
+  margin:14px 0;padding:13px 14px;border:2px dashed rgba(255,104,120,.45);
+  background:rgba(255,104,120,.055);border-radius:10px;color:#ffdce0;
+  font-size:12px;line-height:1.55;text-align:left
+}
+.payment-check{
+  margin-top:14px;padding:13px;border:1px solid var(--line);border-radius:12px;
+  background:rgba(124,221,255,.045);font-size:12px;line-height:1.55;color:#dceff6
+}
+.payment-check label{display:flex;gap:9px;align-items:flex-start;color:#dceff6;margin:0}
+.payment-check input{width:auto;margin-top:2px}
+.copy-code{
+  display:flex;gap:8px;align-items:center;margin-top:9px
+}
+.copy-code b{
+  flex:1;background:#050b10;border:1px solid var(--line);padding:10px;border-radius:8px;
+  color:var(--blue);word-break:break-all
+}
+.promo-item{position:relative}
+.promo-copy{width:auto!important;padding:8px 10px!important;margin-top:9px}
+.promo-discount{color:#70e6a4;font-weight:900}
+#loadingScreen{background:#04080c}
+.loader-box{position:relative}
+.cloud-stage{
+  position:relative;height:150px;margin:-2px auto 6px;overflow:hidden;
+  image-rendering:pixelated
+}
+.pixel-cloud{
+  position:absolute;width:54px;height:30px;opacity:.92;
+  background:var(--blue);box-shadow:
+    0 0 0 8px var(--blue),
+    18px -10px 0 2px var(--blue),
+    38px 2px 0 4px var(--blue),
+    10px 8px 0 4px var(--blue);
+  filter:drop-shadow(4px 4px 0 rgba(0,0,0,.22));
+  transition:transform .08s linear,opacity .18s,filter .18s;
+}
+.pixel-cloud.c1{left:4%;top:28%;transform:translate(0,0)}
+.pixel-cloud.c2{right:3%;top:20%;transform:translate(0,0)}
+.pixel-cloud.c3{left:17%;top:67%;transform:translate(0,0) scale(.78)}
+.pixel-cloud.c4{right:18%;top:63%;transform:translate(0,0) scale(.78)}
+.pixel-cloud.c5{left:45%;top:8%;transform:translate(0,0) scale(.65)}
+.cloud-stage.gather .c1{transform:translate(105px,20px) scale(.72)}
+.cloud-stage.gather .c2{transform:translate(-105px,28px) scale(.72)}
+.cloud-stage.gather .c3{transform:translate(55px,-35px) scale(.65)}
+.cloud-stage.gather .c4{transform:translate(-55px,-28px) scale(.65)}
+.cloud-stage.gather .c5{transform:translate(0,35px) scale(.55)}
+.cloud-stage.burst .pixel-cloud{
+  transform:scale(.12);opacity:0;filter:blur(2px)
+}
+.pixel-particle{
+  position:absolute;left:50%;top:50%;width:7px;height:7px;background:var(--blue);
+  opacity:0;image-rendering:pixelated
+}
+.cloud-stage.burst .pixel-particle{opacity:1;animation:pixelBurst .75s ease-out forwards}
+.p1{--x:-120px;--y:-65px}.p2{--x:100px;--y:-75px}.p3{--x:-145px;--y:15px}
+.p4{--x:145px;--y:5px}.p5{--x:-85px;--y:80px}.p6{--x:85px;--y:72px}
+.p7{--x:25px;--y:-105px}.p8{--x:-25px;--y:105px}.p9{--x:165px;--y:-42px}.p10{--x:-165px;--y:45px}
+@keyframes pixelBurst{from{transform:translate(-50%,-50%) translate(0,0) scale(1);opacity:1}
+to{transform:translate(-50%,-50%) translate(var(--x),var(--y)) scale(.15);opacity:0}}
+.loader-fill{background:repeating-linear-gradient(90deg,var(--blue) 0 10px,#b9efff 10px 16px)}
+.loader-bar{border-radius:3px;box-shadow:4px 4px 0 rgba(124,221,255,.08)}
+.intro-screen{
+  position:fixed;inset:0;z-index:9998;background:#04080c;display:none;align-items:center;
+  justify-content:center;padding:20px
+}
+.intro-box{
+  width:min(700px,100%);text-align:center;border:2px solid var(--blue);
+  background:#071018;padding:28px 18px;box-shadow:10px 10px 0 rgba(124,221,255,.12)
+}
+.intro-box h1{font-size:clamp(28px,8vw,52px);margin:0 0 10px;color:var(--blue)}
+.intro-box p{color:var(--muted);line-height:1.6}
+.intro-box .btn{margin-top:14px}
+.promo-popup-note{
+  font-size:11px;color:var(--muted);margin-top:9px;text-align:center
+}
+.config-note{
+  margin-top:18px;padding:12px;border:1px dashed var(--line);border-radius:10px;
+  color:var(--muted);font-size:11px
+}
+@media(max-width:650px){.cloud-stage{height:135px}.cloud-stage.gather .c1{transform:translate(65px,18px) scale(.68)}
+.cloud-stage.gather .c2{transform:translate(-65px,25px) scale(.68)}}
+
+
+/* V7 DEV PROFILE + VIDEO THUMBNAILS */
+.dev-section{margin:0 auto 18px;padding:14px 0}.dev-card{background:#071018;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:6px 6px 0 rgba(124,221,255,.06)}.dev-head{display:flex;gap:12px;align-items:center}.dev-pp{width:76px;height:76px;object-fit:cover;border:2px solid var(--blue);border-radius:12px}.dev-name{margin:0 0 4px;font-size:20px;color:var(--blue)}.dev-watermark{font-size:11px;color:var(--muted)}.dev-bio{font-size:12px;color:#dceff6;line-height:1.5;margin:12px 0}.dev-links{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.dev-link{display:block;text-decoration:none;text-align:center;background:#09141d;border:1px solid var(--line);color:var(--blue);padding:10px 7px;border-radius:9px;font-size:11px;font-weight:900}.dev-link:hover{background:rgba(124,221,255,.09);transform:translateY(-1px)}.video-thumb-panel{margin:0 0 20px;border:1px solid var(--line);border-radius:16px;padding:12px;background:#071018}.video-thumb{width:100%;height:230px;display:block;object-fit:cover;border-radius:11px;border:1px solid var(--line);background:#020507}.video-thumb-meta{text-align:center;color:var(--muted);font-size:10px;margin-top:8px}@media(max-width:650px){.dev-links{grid-template-columns:repeat(2,1fr)}.video-thumb{height:190px}}
+
+/* ============================================================
+   ZAVIER MD V8 — MODERN SKY-BLUE UI
+   ============================================================ */
+:root{
+  --sky:#9ee8ff;--sky2:#54ccf5;--sky3:#dff8ff;--ink:#06202b;
+  --line2:rgba(42,172,220,.25);--shadow:0 18px 55px rgba(18,130,170,.14);
+}
+html{background:#eafaff}
+body{
+  color:var(--ink);
+  background:
+    linear-gradient(rgba(0,0,0,.02),rgba(0,0,0,.02)),
+    linear-gradient(rgba(158,232,255,.18),rgba(223,248,255,.22)),
+    url("https://u.pone.rs/jrgeaudo.jpg") center top / cover fixed no-repeat;
+  background-color:#dff7ff;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+.dashboard-screen{padding:18px 12px 45px}
+.dashboard-card{
+  background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.9);
+  border-radius:34px;box-shadow:0 30px 90px rgba(30,143,181,.18);
+  backdrop-filter:blur(24px);color:var(--ink)
+}
+.dashboard-card:before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.28),transparent 45%,rgba(84,204,245,.08));
+  pointer-events:none
+}
+.dashboard-top,.dashboard-card>*{position:relative;z-index:1}
+.dashboard-top .dash-logo{border:1px solid rgba(42,172,220,.22);box-shadow:0 16px 40px rgba(42,172,220,.18)}
+.dashboard-top h1{color:#06202b;letter-spacing:4px;text-shadow:0 3px 0 rgba(255,255,255,.7)}
+.dashboard-top>p,.v5-mini,.v5-info small,.v5-package p,.dev-watermark,.dev-bio,.v5-announcement,.config-note,.bot-page-title p{color:#52717e}
+.v5-kicker{color:#087da8;background:rgba(255,255,255,.72);border:1px solid rgba(42,172,220,.28);border-radius:999px;padding:8px 14px;box-shadow:0 8px 25px rgba(42,172,220,.09)}
+.v5-kicker span{opacity:.65}
+.v5-announcement{color:#244b58;background:rgba(255,255,255,.68);border:1px solid rgba(42,172,220,.2);border-left:4px solid var(--sky2);border-radius:16px;box-shadow:var(--shadow)}
+.v5-info-grid{gap:12px}
+.v5-info,.v5-package,.v5-payment-card{
+  background:rgba(255,255,255,.68);border:1px solid rgba(42,172,220,.18);
+  border-radius:20px;box-shadow:0 12px 32px rgba(42,172,220,.08);transition:.22s ease
+}
+.v5-info:hover,.v5-package:hover,.v5-payment-card:hover{transform:translateY(-4px);box-shadow:0 20px 42px rgba(42,172,220,.15)}
+.v5-info .ico{color:#129dcc}.v5-info b,.v5-package h3,.v5-payment-card b{color:#087da8}.v5-price{color:#06202b!important}
+.v5-section-title{color:#087da8;letter-spacing:1.6px;display:flex;align-items:center;gap:9px}
+.v5-section-title:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,rgba(42,172,220,.35),transparent)}
+.v5-section-title small{font-size:9px;color:#76a4b2;letter-spacing:.7px}
+.v5-actions .btn,.btn{
+  background:linear-gradient(135deg,#a7ecff,#54ccf5);color:#03202c;
+  border:1px solid rgba(255,255,255,.7);border-radius:15px;
+  box-shadow:0 10px 25px rgba(42,172,220,.18)
+}
+.btn.secondary{background:rgba(255,255,255,.68);color:#087da8;border:1px solid rgba(42,172,220,.25)}
+.btn:hover{box-shadow:0 14px 32px rgba(42,172,220,.23)}
+.config-note{background:rgba(255,255,255,.6);border:1px dashed rgba(42,172,220,.3);border-radius:16px}
+.video-thumb-panel{background:rgba(255,255,255,.55);border:1px solid rgba(42,172,220,.18);border-radius:24px;padding:10px;box-shadow:var(--shadow)}
+.video-thumb{border:0;border-radius:18px}.video-thumb-meta{color:#668a97;letter-spacing:.5px}
+
+/* Developer profile hub */
+.dev-section{padding:0;margin:0 0 20px}
+.dev-card{
+  position:relative;overflow:hidden;padding:18px;
+  border:1px solid rgba(42,172,220,.18);border-radius:26px;
+  background:linear-gradient(135deg,rgba(255,255,255,.86),rgba(234,250,255,.7));box-shadow:var(--shadow)
+}
+.dev-card:before{content:"";position:absolute;inset:auto -20% -55% 35%;height:180px;border-radius:50%;background:rgba(84,204,245,.13)}
+.dev-head{position:relative;z-index:1}.dev-pp{width:86px;height:86px;border-radius:24px;border:3px solid rgba(84,204,245,.65);box-shadow:0 10px 25px rgba(42,172,220,.18)}
+.dev-name{color:#06202b;font-size:23px;letter-spacing:.5px}
+.dev-bio{position:relative;z-index:1;padding:11px 13px;border-radius:14px;background:rgba(255,255,255,.62);border:1px solid rgba(42,172,220,.13)}
+.dev-links{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.dev-link{
+  color:#087da8;background:rgba(255,255,255,.7);border:1px solid rgba(42,172,220,.18);
+  border-radius:14px;padding:11px 8px;box-shadow:0 8px 20px rgba(42,172,220,.06);transition:.2s ease
+}
+.dev-link:before{content:"↗ ";opacity:.55}
+.dev-link:hover{background:#fff;transform:translateY(-3px);box-shadow:0 13px 28px rgba(42,172,220,.13)}
+
+/* Products / forms */
+#productPage .title h2,.title h2{color:#06202b;letter-spacing:1px}.title p{color:#5d7b86}
+.card{
+  background:linear-gradient(145deg,rgba(255,255,255,.9),rgba(235,250,255,.72));
+  border:1px solid rgba(42,172,220,.18);border-radius:25px;box-shadow:var(--shadow);
+  color:#163b47;transition:.24s ease
+}
+.card:before{background:linear-gradient(90deg,#a7ecff,#54ccf5,#d9f9ff)}
+.card:hover{transform:translateY(-6px);box-shadow:0 25px 55px rgba(42,172,220,.16)}
+.card h3{color:#087da8}.features{color:#476874}.features li:before{color:#17a5d3}
+.panel,.summary,.pay,.step{
+  background:rgba(255,255,255,.74);border:1px solid rgba(42,172,220,.18);
+  color:#183d49;box-shadow:var(--shadow)
+}
+input,select{background:rgba(255,255,255,.85);color:#123744;border:1px solid rgba(42,172,220,.2)}
+input::placeholder{color:#7d9aa4}
+.duration-btn{background:rgba(255,255,255,.72);color:#163b47;border:1px solid rgba(42,172,220,.18)}
+.duration-btn:hover{background:#fff}.duration-btn b{color:#087da8}
+.modal{background:rgba(2,38,51,.35);backdrop-filter:blur(10px)}
+.modal-box{background:rgba(246,253,255,.94);color:#173c48;border:1px solid rgba(255,255,255,.9);border-radius:28px;box-shadow:0 30px 90px rgba(5,77,103,.25)}
+.modal-box h2{color:#06202b}
+.close{color:#087da8;background:rgba(255,255,255,.75);border-color:rgba(42,172,220,.18)}
+.promo-box,.promo-item,.copy-code b,.payment-check,.payment-only .copy-big{background:rgba(255,255,255,.7);border-color:rgba(42,172,220,.18)}
+.promo-discount,.promo-ok{color:#129d6c}.payment-only .pay-title{color:#087da8}
+.bot-card{background:rgba(255,255,255,.78);border:1px solid rgba(42,172,220,.18);border-radius:24px;box-shadow:var(--shadow)}
+.bot-body h3{color:#06202b}.bot-row{border-top-color:rgba(42,172,220,.1)}.bot-row span{color:#64828d}
+.bot-page-title h2{color:#06202b}
+
+/* Six slow clouds + black hole */
+#loadingScreen{background:radial-gradient(circle at 50% 48%,rgba(84,204,245,.09),transparent 30%),linear-gradient(135deg,#e8fbff,#ccefff 52%,#f4fdff)}
+.loader-box{width:min(500px,92%)}.cloud-stage{height:240px;margin:-6px auto 0;overflow:visible}
+.black-hole{position:absolute;left:50%;top:50%;width:48px;height:48px;transform:translate(-50%,-50%);border-radius:50%;background:#020208;box-shadow:0 0 0 5px rgba(2,2,8,.12),0 0 20px 8px rgba(42,172,220,.18),0 0 55px 18px rgba(255,255,255,.16);opacity:.88;z-index:2}
+.black-hole:before{content:"";position:absolute;inset:-18px;border:6px solid rgba(255,255,255,.7);border-top-color:#ff5d72;border-right-color:#ffca55;border-bottom-color:#59e39a;border-left-color:#63cfff;border-radius:50%;filter:blur(1px);animation:holeSpin 3.2s linear infinite}
+.black-hole span{position:absolute;inset:10px;border-radius:50%;background:#000;box-shadow:inset 0 0 15px #000}
+.black-hole i,.black-hole b{position:absolute;left:50%;top:50%;width:7px;height:7px;background:#fff;border-radius:50%;transform-origin:0 0}
+.black-hole i{animation:holeOrbit 2s linear infinite}.black-hole b{animation:holeOrbit 3.2s linear infinite reverse;opacity:.6}
+@keyframes holeSpin{to{transform:rotate(360deg)}}@keyframes holeOrbit{from{transform:rotate(0deg) translateX(35px)}to{transform:rotate(360deg) translateX(35px)}}
+.pixel-cloud{
+  width:50px;height:28px;border-radius:4px;box-shadow:0 0 0 7px currentColor,18px -10px 0 2px currentColor,38px 2px 0 4px currentColor,10px 8px 0 4px currentColor;
+  color:#54ccf5;background:currentColor;opacity:.94;
+  transition:transform 1.15s cubic-bezier(.2,.85,.25,1),opacity .45s,filter .45s;
+  animation:cloudFloat 4.8s ease-in-out infinite
+}
+.pixel-cloud.red{color:#ff6177}.pixel-cloud.blue{color:#42c8ff}.pixel-cloud.pink{color:#ff83c8}.pixel-cloud.white{color:#fff}.pixel-cloud.yellow{color:#ffd35a}.pixel-cloud.green{color:#61e29b}
+.c1{left:5%;top:18%;transform:translate(-15px,0)}.c2{right:5%;top:17%;transform:translate(18px,0)}.c3{left:9%;bottom:17%;transform:translate(-8px,8px)}.c4{right:10%;bottom:18%;transform:translate(8px,-8px)}.c5{left:43%;top:2%;transform:translate(0,-10px)}.c6{left:42%;bottom:1%;transform:translate(0,10px)}
+@keyframes cloudFloat{0%,100%{margin-left:0}50%{margin-left:7px}}
+.cloud-stage.gather .pixel-cloud{animation:none}
+.cloud-stage.gather .c1{transform:translate(155px,75px) scale(1.35)}.cloud-stage.gather .c2{transform:translate(-155px,80px) scale(1.35)}
+.cloud-stage.gather .c3{transform:translate(120px,-55px) scale(1.25)}.cloud-stage.gather .c4{transform:translate(-120px,-55px) scale(1.25)}
+.cloud-stage.gather .c5{transform:translate(0,92px) scale(1.4)}.cloud-stage.gather .c6{transform:translate(0,-88px) scale(1.4)}
+.cloud-stage.gather .black-hole{transform:translate(-50%,-50%) scale(1.5);box-shadow:0 0 0 5px rgba(2,2,8,.12),0 0 35px 15px rgba(42,172,220,.28),0 0 85px 25px rgba(255,255,255,.2)}
+.cloud-stage.burst .pixel-cloud{transform:translate(-50%,-50%) scale(.08) rotate(180deg);opacity:0;filter:blur(5px)}
+.cloud-stage.burst .black-hole{animation:holeBurst .55s ease-out forwards}
+@keyframes holeBurst{0%{transform:translate(-50%,-50%) scale(1.5);opacity:1}55%{transform:translate(-50%,-50%) scale(4);opacity:.85}100%{transform:translate(-50%,-50%) scale(.1);opacity:0}}
+.pixel-particle{width:8px;height:8px;background:#fff;z-index:3}
+.p1{--x:-170px;--y:-95px;background:#ff6177}.p2{--x:160px;--y:-110px;background:#42c8ff}.p3{--x:-190px;--y:25px;background:#ff83c8}.p4{--x:190px;--y:15px;background:#fff}
+.p5{--x:-125px;--y:115px;background:#ffd35a}.p6{--x:125px;--y:110px;background:#61e29b}.p7{--x:35px;--y:-150px;background:#42c8ff}.p8{--x:-35px;--y:150px;background:#ff83c8}
+.p9{--x:210px;--y:-50px;background:#ffd35a}.p10{--x:-210px;--y:55px;background:#61e29b}.p11{--x:80px;--y:80px;background:#ff6177}.p12{--x:-80px;--y:-80px;background:#fff}
+.loader-title{color:#06202b}.loader-text{color:#5a7c87}.loader-bar{background:rgba(255,255,255,.72);border:1px solid rgba(42,172,220,.22)}
+.loader-fill{background:linear-gradient(90deg,#b6f1ff,#54ccf5,#fff);box-shadow:0 0 15px rgba(84,204,245,.45)}
+.loader-percent{color:#087da8}
+.intro-screen{background:linear-gradient(135deg,#e8fbff,#d7f5ff,#f7fdff)}
+.intro-box{background:rgba(255,255,255,.78);color:#173c48;border:1px solid rgba(42,172,220,.22);border-radius:30px;box-shadow:0 30px 90px rgba(42,172,220,.18);backdrop-filter:blur(22px)}
+.intro-box h1{color:#087da8}.intro-box p{color:#587884}.config-note b{color:#087da8}
+@media(max-width:650px){
+  .dev-links{grid-template-columns:repeat(2,1fr)}
+  .cloud-stage{height:205px}
+  .cloud-stage.gather .c1{transform:translate(90px,65px) scale(1.05)}.cloud-stage.gather .c2{transform:translate(-90px,70px) scale(1.05)}
+  .cloud-stage.gather .c3{transform:translate(70px,-45px) scale(1)}.cloud-stage.gather .c4{transform:translate(-70px,-45px) scale(1)}
+  .cloud-stage.gather .c5{transform:translate(0,75px) scale(1.1)}.cloud-stage.gather .c6{transform:translate(0,-70px) scale(1.1)}
+}
+
+
+/* ================= ZAVIER MD V9 ================= */
+.product-hub{display:none!important;animation:v9In .35s ease both;padding:18px 12px 45px}
+.product-hub.active{display:block}
+@keyframes v9In{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.v9-dashboard-product-btn{margin:6px 0 18px;width:100%;display:flex!important;align-items:center;justify-content:space-between;text-align:left!important;padding:16px 18px!important}
+.v9-dashboard-product-btn small{display:block;opacity:.72;margin-top:3px}
+.v9-product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.v9-product-card{padding:22px;min-height:250px;border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(220,248,255,.78));border:1px solid rgba(42,172,220,.2);box-shadow:0 18px 55px rgba(18,130,170,.12);transition:.25s}
+.v9-product-card:hover{transform:translateY(-7px);box-shadow:0 25px 65px rgba(18,130,170,.2)}
+.v9-product-icon{width:58px;height:58px;border-radius:19px;display:grid;place-items:center;background:linear-gradient(135deg,#b7f1ff,#54ccf5);color:#063140;font-size:25px;font-weight:900}
+.v9-product-card h3{margin:18px 0 7px;color:#06202b;font-size:21px}
+.v9-product-card p{color:#5c7c87;line-height:1.6;font-size:13px}
+.v9-product-open{width:100%;margin-top:15px}
+.v9-product-page{display:none}
+.v9-product-page.active{display:block;animation:v9In .35s ease both}
+.v9-product-hero{padding:24px;margin-bottom:16px;border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(216,247,255,.82));border:1px solid rgba(42,172,220,.2);box-shadow:0 18px 55px rgba(18,130,170,.12)}
+.v9-product-hero .tag{display:inline-flex;padding:7px 11px;border-radius:999px;background:rgba(84,204,245,.13);color:#087da8;font-size:11px;font-weight:800}
+.v9-product-hero h2{font-size:30px;color:#06202b;margin:13px 0 7px}
+.v9-product-hero p{color:#5c7c87;line-height:1.65}
+.v9-back{margin-bottom:12px;background:rgba(255,255,255,.75)!important;color:#087da8!important}
+.v9-plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.v9-plan{padding:17px;text-align:left;border-radius:22px;background:rgba(255,255,255,.8);border:1px solid rgba(42,172,220,.18);box-shadow:0 12px 32px rgba(42,172,220,.08);cursor:pointer;transition:.22s;color:#163b47}
+.v9-plan:hover,.v9-plan.selected{transform:translateY(-4px);border-color:#54ccf5;box-shadow:0 18px 38px rgba(42,172,220,.16)}
+.v9-plan.selected{background:linear-gradient(145deg,#f7feff,#dff8ff)}
+.v9-plan .plan-icon{font-size:18px}.v9-plan strong{display:block;color:#087da8;margin-top:8px}.v9-plan b{display:block;color:#06202b;font-size:20px;margin:5px 0}.v9-plan small{color:#71909a}
+.v9-selected{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:15px;padding:14px 16px;border-radius:18px;background:rgba(84,204,245,.1);border:1px solid rgba(42,172,220,.17)}
+.v9-selected span{color:#5b7c87;font-size:12px}.v9-selected strong{color:#087da8}
+.v9-cloud-count{margin:7px auto 0;text-align:center;font-size:12px;font-weight:800;letter-spacing:1px;color:#087da8}
+.cloud-stage.v9-fast .pixel-cloud{animation-duration:3.1s}
+.cloud-stage.v9-center .pixel-cloud{animation:none}
+.cloud-stage.v9-center .c1{transform:translate(155px,75px) scale(1.35)}.cloud-stage.v9-center .c2{transform:translate(-155px,80px) scale(1.35)}
+.cloud-stage.v9-center .c3{transform:translate(120px,-55px) scale(1.25)}.cloud-stage.v9-center .c4{transform:translate(-120px,-55px) scale(1.25)}
+.cloud-stage.v9-center .c5{transform:translate(0,92px) scale(1.4)}.cloud-stage.v9-center .c6{transform:translate(0,-88px) scale(1.4)}
+@media(max-width:850px){.v9-product-grid{grid-template-columns:1fr 1fr}.v9-plan-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.v9-product-grid{grid-template-columns:1fr}.v9-plan-grid{grid-template-columns:1fr 1fr}.v9-product-hero h2{font-size:25px}}
+
+
+/* V12 ADDITIONS — purchase flow */
+.purchase-bot-select{margin:12px 0;padding:14px;border:1px solid rgba(42,172,220,.22);border-radius:18px;background:rgba(255,255,255,.55)}
+.purchase-bot-select label{display:block;font-weight:900;margin-bottom:8px;color:#087da8}
+.purchase-bot-select select{width:100%;padding:13px 14px;border-radius:14px;border:1px solid rgba(42,172,220,.28);background:#f7fdff;color:#173c48;font-weight:800;outline:none}
+.proof-box{margin-top:14px;padding:16px;border-radius:20px;border:1px dashed rgba(42,172,220,.38);background:rgba(255,255,255,.58)}
+.proof-box h3{margin:0 0 6px;color:#087da8}
+.proof-box small{display:block;color:#5d7b86;line-height:1.5;margin-bottom:10px}
+.proof-box input[type=file]{width:100%;padding:11px;border-radius:14px;border:1px solid rgba(42,172,220,.22);background:#f7fdff;color:#173c48}
+.proof-preview{display:none;margin-top:10px;padding:10px;border-radius:14px;background:#eefaff;border:1px solid rgba(42,172,220,.2);font-size:12px;color:#087da8}
+.receipt-modern{border:1px solid rgba(42,172,220,.25);border-radius:22px;padding:18px;background:linear-gradient(145deg,#f7fdff,#eaf8fd);box-shadow:0 18px 45px rgba(5,77,103,.12)}
+.receipt-modern .receipt-brand{font-weight:1000;letter-spacing:2px;color:#087da8;font-size:20px}
+.receipt-modern .receipt-sub{font-size:11px;color:#6b8790;margin:4px 0 14px}
+.receipt-modern .receipt-row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid rgba(42,172,220,.12);font-size:13px}
+.receipt-modern .receipt-row span{color:#67818a}.receipt-modern .receipt-row b{color:#173c48;text-align:right}
+.receipt-modern .receipt-total{margin-top:10px;padding:13px;border-radius:14px;background:#dff6ff;color:#087da8;font-size:16px;font-weight:1000}
+.receipt-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+@media(max-width:500px){.receipt-actions{grid-template-columns:1fr}.purchase-bot-select select{font-size:14px}}
+body.night-theme .purchase-bot-select,body.night-theme .proof-box{background:#0e2938;border-color:#286b84}
+body.night-theme .purchase-bot-select label,body.night-theme .proof-box h3{color:#62d2fa}
+body.night-theme .purchase-bot-select select,body.night-theme .proof-box input[type=file]{background:#09202d;color:#cdebf5;border-color:#286b84}
+body.night-theme .proof-preview{background:#09202d;color:#62d2fa;border-color:#286b84}
+body.night-theme .receipt-modern{background:linear-gradient(145deg,#0e2938,#09202d);border-color:#286b84}
+body.night-theme .receipt-modern .receipt-brand,body.night-theme .receipt-modern .receipt-total{color:#62d2fa}
+body.night-theme .receipt-modern .receipt-row b{color:#cdebf5}
+body.night-theme .receipt-modern .receipt-total{background:#123b4d}
+
+/* ================= V13 INPUT / MODAL FIX =================
+   Fix form inputs that become unresponsive after choosing a product.
+   Existing layout and purchase flow are preserved. */
+.modal{
+  pointer-events:none;
+  touch-action:none;
+}
+.modal.show{
+  pointer-events:auto;
+  touch-action:auto;
+}
+.modal.show .modal-box{
+  pointer-events:auto;
+  touch-action:auto;
+}
+.modal input,
+.modal select,
+.modal textarea,
+.modal button{
+  pointer-events:auto;
+  touch-action:manipulation;
+  -webkit-user-select:text;
+  user-select:text;
+}
+.modal input,
+.modal select,
+.modal textarea{
+  -webkit-user-select:text;
+  user-select:text;
+  cursor:text;
+}
+
+
+/* V14 STABILITY + MODERN LAYOUT PATCH */
+:root{--ui-bg:#edfaff;--ui-ink:#103543;--ui-muted:#5c7b87;--ui-line:rgba(38,153,190,.2);--ui-shadow:0 18px 48px rgba(18,115,145,.12)}
+body{overflow-x:hidden}
+button,a,input,select,textarea{ -webkit-tap-highlight-color:transparent }
+button{touch-action:manipulation}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(30,166,211,.42);outline-offset:3px}
+.dashboard-card,.v9-product-hero,.v9-product-card,.v9-plan,.bot-card,.dev-card,.modal-box{isolation:isolate}
+.dashboard-card:before{pointer-events:none!important}
+.v9-product-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.v9-product-card{display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.v9-product-card p{flex:1}
+.v9-product-open{margin-top:auto;min-height:48px}
+.v9-plan-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.v9-plan{min-width:0;min-height:142px;touch-action:manipulation}
+.v9-plan:active,.btn:active,.duration-btn:active{transform:scale(.985)}
+.v10-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.v10-nav button{min-width:0;min-height:48px;white-space:normal;line-height:1.35}
+.modal{z-index:10000;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y}
+.modal.show{pointer-events:auto}
+.modal.show .modal-box{position:relative;z-index:1;margin:auto;max-height:min(88dvh,850px);overflow-y:auto;overscroll-behavior:contain}
+.modal input,.modal select,.modal textarea{position:relative;z-index:2;pointer-events:auto;touch-action:manipulation}
+.modal-box .close{position:sticky;top:0;z-index:5;flex-shrink:0}
+#dashboardPromoPopup,#themeSwitcher{z-index:120}
+#dashboardScreen,#productHub,#productPage,#botPage,.v10-page{position:relative}
+.product-hub.active{display:block!important}
+.v9-product-page.active{display:block!important}
+.v9-product-card,.v9-plan,.bot-card,.v5-info,.v5-package{overflow-wrap:anywhere}
+.toast{z-index:20000;max-width:calc(100vw - 28px);text-align:center}
+@media(max-width:850px){
+ .v9-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .v9-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .v10-nav{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+ .v9-product-grid,.v9-plan-grid{grid-template-columns:1fr}
+ .v9-product-card{min-height:unset;padding:20px}
+ .v9-plan{min-height:unset;padding:16px}
+ .v10-nav{grid-template-columns:1fr 1fr}
+ .modal{padding:10px}
+ .modal.show .modal-box{width:100%;max-height:90dvh;padding:17px;border-radius:22px}
+ .dashboard-screen{padding-left:9px;padding-right:9px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+</style>
+</head>
+<body>
+<div id="dashboardPromoPopup"><div class="dashboard-promo-copy"><b>🏷 KODE PROMO AKTIF</b><span id="dashboardPopupText">Memuat promo...</span></div><button class="dashboard-promo-btn" onclick="copyDashboardPromo()">SALIN</button><button class="dashboard-promo-close" onclick="closeDashboardPromo()">×</button></div>
+
+
+<div id="loadingScreen">
+  <div class="loader-box">
+    <div class="cloud-stage" id="cloudStage">
+      <div class="black-hole"><span></span><i></i><b></b></div>
+      <span class="pixel-cloud c1 red"></span>
+      <span class="pixel-cloud c2 blue"></span>
+      <span class="pixel-cloud c3 pink"></span>
+      <span class="pixel-cloud c4 white"></span>
+      <span class="pixel-cloud c5 yellow"></span>
+      <span class="pixel-cloud c6 green"></span>
+      <i class="pixel-particle p1"></i><i class="pixel-particle p2"></i>
+      <i class="pixel-particle p3"></i><i class="pixel-particle p4"></i>
+      <i class="pixel-particle p5"></i><i class="pixel-particle p6"></i>
+      <i class="pixel-particle p7"></i><i class="pixel-particle p8"></i>
+      <i class="pixel-particle p9"></i><i class="pixel-particle p10"></i>
+      <i class="pixel-particle p11"></i><i class="pixel-particle p12"></i>
+    </div>
+    <img class="pixel-logo" src="https://u.pone.rs/omtufbcg.jpg">
+    <div class="loader-title">ZAVIER MD</div>
+    <div class="loader-text" id="loaderText">MEMUAT DASHBOARD...</div>
+    <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+    <div class="loader-percent" id="loaderPercent">0%</div>
+  </div>
+</div>
+<div id="introScreen" class="intro-screen">
+  <div class="intro-box">
+    <img class="pixel-logo" src="https://u.pone.rs/omtufbcg.jpg">
+    <h1>ZAVIER MD</h1>
+    <p id="introText">Dashboard sewa bot sudah siap. Silakan lanjut untuk melihat informasi bot, paket sewa, promo, dan pembayaran.</p>
+    <button class="btn" onclick="enterDashboard()">[ LANJUT KE DASHBOARD / HALAMAN 1 ]</button>
+  </div>
+</div>
+<audio id="bgMusic" src="https://u.pone.rs/mxdltnzm.mp3" autoplay loop preload="auto"></audio>
+<div id="themeSwitcher" aria-label="Mode warna website"><button id="dayThemeBtn" onclick="setSiteTheme('day')">☀️ PAGI</button><button id="nightThemeBtn" onclick="setSiteTheme('night')">🌙 MALAM</button></div>
+<div id="dashboardScreen" class="dashboard-screen"><div class="dashboard-card">
+  <div class="video-thumb-panel">
+    <video id="randomVideoThumb" class="video-thumb" autoplay muted loop playsinline preload="metadata"></video>
+    <div class="video-thumb-meta" id="videoThumbMeta">VIDEO #1 • BERGANTI SETIAP 1 MENIT</div>
+  </div>
+  <div class="dev-section"><div class="dev-card">
+    <div class="dev-head"><img class="dev-pp" src="https://u.pone.rs/fqwbwjer.jpg" alt="Dhanyy"><div><h2 class="dev-name">Dhanyy</h2><div class="dev-watermark">WATERMARK: ᯓ❆ ᴢᴀᴠɪᴇʀ ᴍᴅ</div><div class="dev-watermark">NO DEV: 62838xxxx3843</div></div></div>
+    <div class="dev-bio">Dhany Imop si Raja Iblis 😈</div>
+    <div class="dev-links">
+      <a class="dev-link" href="https://www.tiktok.com/@prince_dhanyy" target="_blank" rel="noopener">TIKTOK</a>
+      <a class="dev-link" href="https://www.instagram.com/xdhany48?stkn=MXhyMnRsb3gxM3oxNA==" target="_blank" rel="noopener">INSTAGRAM</a>
+      <a class="dev-link" href="https://whatsapp.com/channel/0029Vb8VtwW3wtbAWrhIo01Z" target="_blank" rel="noopener">SALURAN OFFICIAL</a>
+      <a class="dev-link" href="https://whatsapp.com/channel/0029VbCo1YbCxoB4mGbo9h0y" target="_blank" rel="noopener">TESTIMONI</a>
+      <a class="dev-link" href="https://t.me/princedhanyy" target="_blank" rel="noopener">TELEGRAM</a>
+      <a class="dev-link" href="https://market-dhany-end-version.edgeone.dev" target="_blank" rel="noopener">WEBSITE OFFICIAL</a>
+      <a class="dev-link" href="https://websiteapkbug.vercel.app" target="_blank" rel="noopener">WEB BUG</a>
+      <a class="dev-link" href="https://apiii-xrina.vercel.app/" target="_blank" rel="noopener">WEB API BOT</a>
+    </div></div></div>
+
+  <div class="dashboard-top">
+    <div class="v5-kicker">ZAVIER MD <span>• V8 MODERN DASHBOARD</span></div>
+    <img class="dash-logo" src="https://u.pone.rs/omtufbcg.jpg" alt="Zavier MD">
+    <h1>DASHBOARD</h1>
+    <p>Control center Sewa Bot Zavier MD</p>
+  </div>
+
+  <div class="v10-promo-top">
+    <div><b>🏷 PROMO AKTIF</b> • <span id="dashboardPromoCode" class="v10-promo-code">-</span> <span id="dashboardPromoDiscount"></span></div>
+    <button class="copy" onclick="copyDashboardPromo()">SALIN CODE</button>
+  </div>
+
+  <div class="v5-section-title">HALAMAN <small>ONE TAP</small></div>
+  <div class="v10-nav">
+    <button class="btn" onclick="showPage(1)">01 • DASHBOARD</button>
+    <button class="btn secondary" onclick="showPage(2)">02 • BASIC</button>
+    <button class="btn secondary" onclick="showPage(3)">03 • PREMIUM</button>
+    <button class="btn secondary" onclick="showPage(4)">04 • PREMIUM PRO</button>
+    <button class="btn secondary" onclick="showPage(5)">05 • UPGRADE PREMIUM</button>
+    <button class="btn secondary" onclick="showPage(6)">06 • INFO DEV</button>
+  </div>
+
+  <div class="v5-announcement">
+    <b>📢 INFORMASI:</b> Website sewa bot aktif. Semua pembelian dilakukan melalui pilihan produk → durasi → isi data → payment → konfirmasi WhatsApp.
+  </div>
+
+  <div class="v5-section-title">SYSTEM STATUS <small>LIVE</small></div>
+  <div class="v5-info-grid">
+    <div class="v5-info"><div class="ico">◉</div><b>WEBSITE</b><small>ONLINE • NORMAL</small></div>
+    <div class="v5-info"><div class="ico">⚡</div><b>BOT</b><small>AKTIF • SIAP DISEWA</small></div>
+    <div class="v5-info"><div class="ico">✓</div><b>ORDER</b><small>FORM PEMESANAN AKTIF</small></div>
+    <div class="v5-info"><div class="ico">!</div><b>UPDATE</b><small>V8 • MODERN UI</small></div>
+  </div>
+
+  <div class="v5-section-title">PAKET SEWA <small>CHOOSE YOUR PLAN</small></div>
+  <div class="v5-package-grid">
+    <div class="v5-package">
+      <h3>❄ BASIC</h3>
+      <p class="v5-price">Mulai Rp1.000</p>
+      <p>Grup sewa + request fitur 1x khusus permanen.</p>
+    </div>
+    <div class="v5-package">
+      <h3>🪙 PREMIUM</h3>
+      <p class="v5-price">Mulai Rp1.500</p>
+      <p>Grup sewa + fitur premium + request 2x permanen.</p>
+    </div>
+    <div class="v5-package">
+      <h3>💎 PREMIUM PRO</h3>
+      <p class="v5-price">Mulai Rp2.000</p>
+      <p>Fitur premium + request 3x permanen + Free SC Zavier MD.</p>
+    </div>
+  </div>
+
+  <div class="v5-section-title">UPGRADE & PAYMENT <small>AMAN • JELAS • CEPAT</small></div>
+  <div class="v5-payment">
+    <div class="v5-payment-card">
+      <b>⬆ UPGRADE BASIC → PREMIUM</b>
+      <p class="v5-mini">Rp500 / hari • jumlah hari dapat dipilih.</p>
+    </div>
+    <div class="v5-payment-card">
+      <b>💳 PAYMENT</b>
+      <p class="v5-mini">DANA 083857053843 • A/N MXXX SXXX • QRIS tersedia.</p>
+    </div>
+  </div>
+
+  
+
+  <div class="config-note">CONFIG EDITOR: promo, harga, nomor bot, status bot, nomor DANA, nama DANA, gambar QRIS, gambar bot, dan teks pembayaran dapat diedit di <b>ZAVIER_CONFIG</b> di bagian awal script.</div>
+  <div class="v5-section-title">QUICK ACTION <small>ONE TAP</small></div>
+  <div class="v5-actions"><button class="btn secondary" onclick="openBotPage()">⚡ INFO BOT AKTIF</button><button class="btn secondary" onclick="openPromoPopup()">🏷 CODE PROMO</button>
+    <button class="btn" onclick="showPage(2)">▣ LIHAT PRODUK</button>
+    <button class="btn secondary" onclick="openFlow()">☷ ALUR PEMBELIAN</button>
+    <button class="btn secondary" onclick="toggleMusic()" id="musicBtn">♫ PAUSE</button>
+  </div>
+
+  <div class="music-box" style="text-align:center;margin-top:13px">
+    Musik website: <span class="v5-mini">autoplay + loop • gunakan tombol di atas jika browser memblokir autoplay.</span>
+  </div>
+</div></div>
+
+<div id="v10Pages">
+  <section id="page2" class="v10-page">
+    <div class="v10-page-wrap">
+      <div class="v10-head"><span class="tag">HALAMAN 02 • BASIC</span><h2>❄ SEWA BOT BASIC</h2><p>Pilih masa sewa melalui tombol terpisah. Klik salah satu durasi untuk melanjutkan ke alur data dan payment lama.</p></div>
+      <div class="v10-duration-grid" data-v10-product="Basic"></div>
+      <div class="v10-nav"><button class="btn secondary" onclick="showPage(1)">← DASHBOARD</button><button class="btn secondary" onclick="showPage(3)">NEXT • PREMIUM →</button></div>
+    </div>
+  </section>
+  <section id="page3" class="v10-page">
+    <div class="v10-page-wrap">
+      <div class="v10-head"><span class="tag">HALAMAN 03 • PREMIUM</span><h2>🪙 SEWA BOT PREMIUM</h2><p>Pilih masa sewa Premium melalui tombol terpisah. Penanda TERLARIS ditampilkan pada pilihan durasi.</p></div>
+      <div class="v10-duration-grid" data-v10-product="Premium"></div>
+      <div class="v10-nav"><button class="btn secondary" onclick="showPage(1)">← DASHBOARD</button><button class="btn secondary" onclick="showPage(4)">NEXT • PREMIUM PRO →</button></div>
+    </div>
+  </section>
+  <section id="page4" class="v10-page">
+    <div class="v10-page-wrap">
+      <div class="v10-head"><span class="tag">HALAMAN 04 • PREMIUM PRO</span><h2>💎 SEWA BOT PREMIUM PRO</h2><p>Paket tertinggi. Pilih masa sewa dengan tombol terpisah sebelum masuk ke proses pemesanan.</p></div>
+      <div class="v10-duration-grid" data-v10-product="Premium Pro"></div>
+      <div class="v10-nav"><button class="btn secondary" onclick="showPage(1)">← DASHBOARD</button><button class="btn secondary" onclick="showPage(5)">NEXT • UPGRADE →</button></div>
+    </div>
+  </section>
+  <section id="page5" class="v10-page">
+    <div class="v10-page-wrap">
+      <div class="v10-head"><span class="tag">HALAMAN 05 • UPGRADE</span><h2>⬆ UPGRADE PREMIUM</h2><p>Upgrade dari Basic ke Premium dengan jumlah hari yang bisa kamu tentukan.</p></div>
+      <div class="v10-info-card">
+        <div class="form-grid"><div><label>Pilih jumlah hari</label><input id="v10UpgradeDays" type="number" min="1" value="1" oninput="updateV10Upgrade()"></div><div><label>Total upgrade</label><input id="v10UpgradeTotal" value="Rp500" readonly></div></div>
+        <button class="btn" style="margin-top:14px" onclick="selectV10Upgrade()">PILIH UPGRADE</button>
+      </div>
+      <div class="v10-nav" style="margin-top:16px"><button class="btn secondary" onclick="showPage(1)">← DASHBOARD</button><button class="btn secondary" onclick="showPage(6)">NEXT • INFO DEV →</button></div>
+    </div>
+  </section>
+  <section id="page6" class="v10-page">
+    <div class="v10-page-wrap">
+      <div class="v10-head"><span class="tag">HALAMAN 06 • DEVELOPER</span><h2>👤 INFO DEVELOPER</h2><p>Informasi developer, watermark, dan seluruh link yang sebelumnya sudah ada di dashboard.</p></div>
+      <div class="v10-info-card v10-dev-copy">
+        <div class="dev-head"><img class="dev-pp" src="https://u.pone.rs/fqwbwjer.jpg" alt="Dhanyy"><div><h3 class="dev-name">Dhanyy</h3><div class="dev-watermark">WATERMARK: ᯓ❆ ᴢᴀᴠɪᴇʀ ᴍᴅ</div><div class="dev-watermark">NO DEV: 62838xxxx3843</div></div></div>
+        <div class="dev-bio">Dhany Imop si Raja Iblis 😈</div>
+        <div class="dev-links">
+          <a class="dev-link" href="https://www.tiktok.com/@prince_dhanyy" target="_blank" rel="noopener">TIKTOK</a>
+          <a class="dev-link" href="https://www.instagram.com/xdhany48?stkn=MXhyMnRsb3gxM3oxNA==" target="_blank" rel="noopener">INSTAGRAM</a>
+          <a class="dev-link" href="https://whatsapp.com/channel/0029Vb8VtwW3wtbAWrhIo01Z" target="_blank" rel="noopener">SALURAN OFFICIAL</a>
+          <a class="dev-link" href="https://whatsapp.com/channel/0029VbCo1YbCxoB4mGbo9h0y" target="_blank" rel="noopener">TESTIMONI</a>
+          <a class="dev-link" href="https://t.me/princedhanyy" target="_blank" rel="noopener">TELEGRAM</a>
+          <a class="dev-link" href="https://market-dhany-end-version.edgeone.dev" target="_blank" rel="noopener">WEBSITE OFFICIAL</a>
+          <a class="dev-link" href="https://websiteapkbug.vercel.app" target="_blank" rel="noopener">WEB BUG</a>
+          <a class="dev-link" href="https://apiii-xrina.vercel.app/" target="_blank" rel="noopener">WEB API BOT</a>
+        </div>
+      </div>
+      <div class="v10-nav" style="margin-top:16px"><button class="btn secondary" onclick="showPage(1)">← DASHBOARD</button><button class="btn secondary" onclick="showPage(2)">BASIC →</button></div>
+    </div>
+  </section>
+</div>
+
+<section id="botPage" class="bot-page container"><div class="bot-page-title"><h2>⚡ INFO BOT AKTIF</h2><p>Daftar bot Zavier MD dan statusnya.</p></div><div class="bot-grid" id="botGrid"></div><button class="btn secondary back-btn" onclick="closeBotPage()">← KEMBALI KE DASHBOARD</button></section>
+<header id="productPage" class="container" style="display:none">
+  <div class="hero">
+    <img src="https://u.pone.rs/omtufbcg.jpg" alt="Sewa Bot">
+    <h1>SEWA BOT</h1>
+    <p>Zavier MD • Pilih paket sesuai kebutuhanmu</p>
+    <span class="badge">WEBSITE • SEWABOT • TERMURAH</span><div style="margin-top:16px"><button class="btn secondary" style="max-width:260px" onclick="backDashboard()">← KEMBALI KE DASHBOARD</button></div>
+  </div>
+</header>
+
+<main id="mainProducts" class="container" style="display:none">
+<section><div class="title"><h2>PAKET SEWA BOT</h2><p>Pilih paket dulu, lalu pilih durasinya secara terpisah.</p></div><div class="grid">
+<article class="card package-card"><h3>❄ BASIC</h3><p style="color:var(--muted)">Paket awal untuk kebutuhan sewa bot.</p><ul class="features"><li>Masuk grub sewa bot</li><li>Request fitur 1x (khusus permanen)</li></ul><button class="btn" onclick="openDuration('Basic')">PILIH BASIC</button></article>
+<article class="card package-card"><h3>🪙 PREMIUM</h3><p style="color:var(--muted)">Fitur premium untuk penggunaan lebih lengkap.</p><ul class="features"><li>Masuk grub sewa bot</li><li>Akses fitur premium</li><li>Request fitur 2x (khusus permanen)</li></ul><button class="btn" onclick="openDuration('Premium')">PILIH PREMIUM</button></article>
+<article class="card package-card"><h3>💎 PREMIUM PRO</h3><p style="color:var(--muted)">Paket paling lengkap untuk pengguna serius.</p><ul class="features"><li>Masuk grub sewa bot</li><li>Akses fitur premium</li><li>Request fitur 3x (khusus permanen)</li><li>Free SC Zavier MD</li></ul><button class="btn" onclick="openDuration('Premium Pro')">PILIH PREMIUM PRO</button></article>
+</div></section>
+
+<section>
+  <div class="title"><h2>KEUNGGULAN ROLE</h2></div>
+  <div class="roles">
+    <div class="card role"><h3>BASIC [❄️]</h3><p>Masuk grub sewa bot</p><p>Request fitur <strong>1x</strong> khusus permanen</p></div>
+    <div class="card role"><h3>PREMIUM [🪙]</h3><p>Masuk grub sewa bot</p><p>Akses fitur premium</p><p>Request fitur <strong>2x</strong> khusus permanen</p></div>
+    <div class="card role"><h3>PREMIUM PRO [💎]</h3><p>Masuk grub sewa bot</p><p>Akses fitur premium</p><p>Request fitur <strong>3x</strong> khusus permanen</p><p>Free SC Zavier MD</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="title">
+    <h2>UPGRADE ROLE</h2>
+    <p>Basic → Premium: 1 hari = Rp500</p>
+  </div>
+  <div class="panel">
+    <div class="form-grid">
+      <div>
+        <label>Pilih jumlah hari</label>
+        <input id="upgradeDays" type="number" min="1" value="1" oninput="updateUpgrade()">
+      </div>
+      <div>
+        <label>Total upgrade</label>
+        <input id="upgradeTotal" value="Rp500" readonly>
+      </div>
+    </div>
+    <button class="btn" style="margin-top:14px" onclick="selectUpgrade()">Pilih Upgrade</button>
+  </div>
+</section>
+
+<section><div class="panel" style="text-align:center"><h2 style="margin-top:0">BUTUH BANTUAN?</h2><p style="color:var(--muted)">Lihat alur pembelian lengkap tanpa memenuhi halaman produk.</p><button class="btn" style="max-width:420px" onclick="openFlow()">LIHAT ALUR PEMBELIAN</button></div></section>
+</main>
+
+<footer id="siteFooter" style="display:none">© 2026 ZAVIER MD • MODERN RENTAL DASHBOARD</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-icon">✦</span><span id="toastText"></span><span class="typing-caret"></span></div>
+<div id="durationModal" class="modal"><div class="modal-box"><div class="modal-head"><h2 id="durationTitle">PILIH DURASI</h2><button class="close" onclick="closeModal('durationModal')">×</button></div><p style="color:var(--muted)">Pilih durasi. Tombol <b>[ PILIH ]</b> akan langsung membuka pop-up isi data.</p><div id="durationChoices" class="duration-grid"></div><button class="btn secondary back-btn purchase-flow-back" onclick="backFromDurationModal()">← KEMBALI KE PRODUK</button></div></div>
+<div id="dataModal" class="modal"><div class="modal-box"><div class="modal-head"><h2>ISI DATA</h2><button class="close" onclick="closeModal('dataModal')">×</button></div><div class="summary"><div class="row"><span>Produk</span><b id="sumProduct">-</b></div><div class="row"><span>Durasi</span><b id="sumDuration">-</b></div><div class="row total"><span>Total</span><span id="sumTotal">Rp0</span></div></div><label>Nama</label><input id="name" placeholder="Nama kamu"><label>Nomor WhatsApp</label><input id="phone" placeholder="08xxxxxxxxxx" inputmode="tel">
+<div class="purchase-bot-select"><label for="botSelect">🤖 PILIH BOT</label><select id="botSelect"><option value="">Memuat bot...</option></select></div>
+<label>Link Group WhatsApp</label><input id="group" placeholder="https://chat.whatsapp.com/..."><label>Catatan</label><input id="note" placeholder="Opsional"><div class="promo-box"><label>CODE PROMO</label><div class="promo-row"><input id="promoCode" placeholder="Masukkan code promo"><button class="btn" onclick="applyPromo()">PAKAI</button></div><div id="promoMessage"></div></div><button class="btn" style="margin-top:12px" onclick="goPayment()">LANJUT KE PAYMENT</button><button class="btn secondary back-btn" onclick="backToDuration()">← KEMBALI</button></div></div>
+<div id="paymentSection" class="modal"><div class="modal-box"><div class="modal-head"><h2>03 • PILIH PAYMENT</h2><button class="close" onclick="closeModal('paymentSection')">×</button></div><p class="purchase-flow-title">LANGKAH 03 • METODE PEMBAYARAN</p><p style="color:var(--muted)">Total yang harus dibayar: <b style="color:var(--blue)" id="paymentChoiceTotal">Rp0</b>. Pilih salah satu metode di bawah.</p><div class="pay-grid"><div class="pay"><h3>💵 DANA</h3><p>Bayar melalui nomor DANA.</p><button class="btn" onclick="selectPayment('DANA')">PILIH DANA</button></div><div class="pay"><h3>▣ QRIS</h3><p>Bayar dengan scan QRIS.</p><button class="btn" onclick="selectPayment('QRIS')">PILIH QRIS</button></div></div><button class="btn secondary back-btn purchase-flow-back" onclick="backToData()">← KEMBALI KE ISI DATA</button></div></div>
+<div id="payNowSection" class="modal"><div class="modal-box"><div class="modal-head"><h2>04 • PAYMENT</h2><button class="close" onclick="closeModal('payNowSection')">×</button></div><p class="purchase-flow-title">LANGKAH 04 • LAKUKAN PEMBAYARAN</p><div id="paymentOnlyContent" class="payment-only"></div><button class="btn" onclick="paymentDone()">✓ SAYA SUDAH PAYMENT</button><button class="btn secondary back-btn" onclick="backToPaymentChoice()">← KEMBALI PILIH PAYMENT</button></div></div><div id="confirmSection" class="modal"><div class="modal-box"><div class="modal-head"><h2>05 • KONFIRMASI</h2><button class="close" onclick="closeModal('confirmSection')">×</button></div><p class="purchase-flow-title">LANGKAH 05 • KONFIRMASI PEMBAYARAN</p><div class="summary" id="finalSummary"></div><div class="pixel-warning" id="paymentWarningText">⚠ PEMBAYARAN WAJIB DILAKUKAN SESUAI TOTAL.</div>
+<p style="color:var(--muted)">Upload bukti pembayaran yang jelas. Setelah itu lanjut ke WhatsApp admin untuk proses verifikasi.</p>
+<div class="proof-box"><h3>📎 BUKTI PEMBAYARAN</h3><small>Pilih screenshot/foto bukti pembayaran dari perangkatmu. File ini akan dicatat untuk pesanan ini dan tetap perlu dilampirkan manual saat chat WhatsApp terbuka.</small><input id="paymentProof" type="file" accept="image/*,.pdf" onchange="previewPaymentProof(this)"><div id="proofPreview" class="proof-preview"></div></div>
+<button class="btn" style="margin-top:12px" onclick="sendWA()">KIRIM KONFIRMASI KE WHATSAPP →</button><button class="btn secondary back-btn" onclick="backToPay()">← KEMBALI KE PAYMENT</button></div></div>
+<div id="receiptModal" class="modal"><div class="modal-box"><div class="modal-head"><h2>06 • 🧾 STRUK PESANAN</h2><button class="close" onclick="closeModal('receiptModal')">×</button></div><div id="receiptContent"></div><div class="receipt-actions"><button class="btn" onclick="downloadReceipt()">⬇ UNDUH STRUK</button><button class="btn" onclick="confirmToAdmin()">✉ KONFIRMASI KE ADMIN</button><button class="btn secondary" onclick="finishOrder()">LANJUT • TERIMA KASIH</button></div></div></div>
+<div id="promoModal" class="modal" onclick="closePromoOutside(event)"><div class="modal-box"><div class="modal-head"><h2>🏷 CODE PROMO</h2><button class="close" onclick="closeModal('promoModal')">×</button></div><p style="color:var(--muted)">Code promo yang aktif:</p><div id="promoList" class="promo-list"></div><button class="btn secondary back-btn" onclick="closeModal('promoModal')">← KEMBALI</button></div></div>
+<div id="thanksModal" class="modal"><div class="modal-box" style="text-align:center"><div class="thanks-icon">✓</div><h2>07 • TERIMA KASIH!</h2><p style="color:var(--muted)">Konfirmasi kamu sudah diarahkan ke WhatsApp admin. Simpan bukti pembayaran dan tunggu proses dari admin.</p><button class="btn" onclick="closeModal('thanksModal');backDashboard()">KEMBALI KE DASHBOARD</button></div></div><div id="flowModal" class="modal" onclick="closeFlowOutside(event)"><div class="modal-box"><div class="modal-head"><h2>ALUR PEMBELIAN</h2><button class="close" onclick="closeFlow()">×</button></div>
+<div class="popup-step"><span class="popup-num">01</span><div><b>PILIH PRODUK</b><br><span style="color:var(--muted)">Pilih Basic, Premium, Premium Pro, atau upgrade role.</span></div></div>
+<div class="popup-step"><span class="popup-num">02</span><div><b>ISI DATA</b><br><span style="color:var(--muted)">Masukkan nama, nomor WhatsApp, link grup, dan catatan jika diperlukan.</span></div></div>
+<div class="popup-step"><span class="popup-num">03</span><div><b>PILIH PAYMENT</b><br><span style="color:var(--muted)">Pilih DANA atau QRIS yang tersedia.</span></div></div>
+<div class="popup-step"><span class="popup-num">04</span><div><b>MEMULAI PEMBAYARAN</b><br><span style="color:var(--muted)">Lakukan pembayaran sesuai nominal pesanan.</span></div></div>
+<div class="popup-step"><span class="popup-num">05</span><div><b>KONFIRMASI PEMBAYARAN</b><br><span style="color:var(--muted)">Pastikan pembayaran sudah berhasil dan siapkan bukti pembayaran.</span></div></div>
+<div class="popup-step"><span class="popup-num">06</span><div><b>KONFIRMASI KE WA ADMIN + STRUK</b><br><span style="color:var(--muted)">Kirim konfirmasi melalui WhatsApp admin dan lampirkan bukti pembayaran.</span></div></div>
+<div class="popup-step"><span class="popup-num">07</span><div><b>TERIMA KASIH</b><br><span style="color:var(--muted)">Setelah konfirmasi WA dan struk selesai, kamu akan mendapatkan halaman ucapan terima kasih.</span></div></div>
+</div></div>
+
+
+<section id="productHub" class="product-hub">
+  <button class="btn v9-back" onclick="backToDashboard()">← KEMBALI KE DASHBOARD</button>
+  <div id="v9ProductList">
+    <div class="v9-product-hero"><span class="tag">ZAVIER MD • PRODUCT CENTER</span><h2>Pilih Produk</h2><p>Setiap produk memiliki halaman sendiri. Setelah memilih produk, masa sewa juga dipilih di halaman khusus.</p></div>
+    <div class="v9-product-grid">
+      <article class="v9-product-card"><div class="v9-product-icon">B</div><h3>Basic</h3><p>Paket awal dengan pilihan durasi sewa fleksibel.</p><button class="btn v9-product-open" onclick="openProductPage('basic')">BUKA BASIC →</button></article>
+      <article class="v9-product-card"><div class="v9-product-icon">P</div><h3>Premium</h3><p>Paket premium dengan pilihan masa sewa lengkap.</p><button class="btn v9-product-open" onclick="openProductPage('premium')">BUKA PREMIUM →</button></article>
+      <article class="v9-product-card"><div class="v9-product-icon">✦</div><h3>Premium Pro</h3><p>Paket tertinggi dengan pilihan masa sewa maksimal.</p><button class="btn v9-product-open" onclick="openProductPage('pro')">BUKA PREMIUM PRO →</button></article>
+    </div>
+  </div>
+  <div id="v9ProductPages">
+    <article class="v9-product-page" data-product="basic"><button class="btn v9-back" onclick="backToProductHub()">← DAFTAR PRODUK</button><div class="v9-product-hero"><span class="tag">PRODUCT 01</span><h2>Basic</h2><p>Pilih masa sewa Basic di halaman khusus ini.</p></div><div class="v9-plan-grid" data-plan-product="Basic"></div><div class="v9-selected"><span>Pilihan</span><strong id="v9SelectedBasic">Belum memilih</strong></div></article>
+    <article class="v9-product-page" data-product="premium"><button class="btn v9-back" onclick="backToProductHub()">← DAFTAR PRODUK</button><div class="v9-product-hero"><span class="tag">PRODUCT 02</span><h2>Premium</h2><p>Pilih masa sewa Premium di halaman khusus ini.</p></div><div class="v9-plan-grid" data-plan-product="Premium"></div><div class="v9-selected"><span>Pilihan</span><strong id="v9SelectedPremium">Belum memilih</strong></div></article>
+    <article class="v9-product-page" data-product="pro"><button class="btn v9-back" onclick="backToProductHub()">← DAFTAR PRODUK</button><div class="v9-product-hero"><span class="tag">PRODUCT 03</span><h2>Premium Pro</h2><p>Pilih masa sewa Premium Pro di halaman khusus ini.</p></div><div class="v9-plan-grid" data-plan-product="Premium Pro"></div><div class="v9-selected"><span>Pilihan</span><strong id="v9SelectedPro">Belum memilih</strong></div></article>
+  </div>
+</section>
+
+
+<style>
+/* V10 PAGE SYSTEM — hanya mengatur navigasi halaman baru */
+.v10-page{display:none;min-height:100vh;padding:18px 12px 45px;animation:v9In .3s ease both}
+.v10-page.active{display:block}
+.v10-page-wrap{width:min(1050px,100%);margin:0 auto}
+.v10-head{padding:24px;border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(216,247,255,.86));border:1px solid rgba(42,172,220,.2);box-shadow:0 18px 55px rgba(18,130,170,.12);margin-bottom:16px}
+.v10-head .tag{display:inline-flex;padding:7px 11px;border-radius:999px;background:rgba(84,204,245,.13);color:#087da8;font-size:11px;font-weight:900}
+.v10-head h2{margin:12px 0 6px;color:#06202b;font-size:30px}.v10-head p{margin:0;color:#5c7c87;line-height:1.6}
+.v10-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:0 0 16px}
+.v10-nav .btn{width:100%;margin:0}
+.v10-duration-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.v10-duration{position:relative;text-align:left;padding:18px;border-radius:22px;border:1px solid rgba(42,172,220,.18);background:rgba(255,255,255,.86);box-shadow:0 12px 32px rgba(42,172,220,.08);cursor:pointer;color:#163b47;transition:.2s}
+.v10-duration:hover{transform:translateY(-3px);border-color:#54ccf5;box-shadow:0 18px 38px rgba(42,172,220,.16)}
+.v10-duration .v10-pick{position:absolute;right:12px;bottom:12px;padding:7px 12px;border-radius:999px;border:1px solid rgba(42,172,220,.28);background:#dff6ff;color:#087da8;font-size:11px;font-weight:900;letter-spacing:.5px}.v10-duration .v10-pick::before{content:"[ ";}.v10-duration .v10-pick::after{content:" ]";}.v10-duration .v10-pick{margin-top:12px}.purchase-flow-title{font-size:12px;letter-spacing:1.4px;color:#087da8;font-weight:900;margin:0 0 10px}.purchase-flow-back{margin-top:10px}.payment-modern-note{padding:12px 14px;border:1px solid rgba(42,172,220,.2);border-radius:15px;background:#eaf9ff;color:#376370;font-size:12px;line-height:1.6}.wa-confirm-card{padding:16px;border-radius:18px;background:linear-gradient(135deg,#effbff,#dff6ff);border:1px solid rgba(42,172,220,.28);box-shadow:0 12px 30px rgba(42,172,220,.1)}.wa-confirm-card .wa-brand{font-weight:1000;letter-spacing:1.2px;color:#087da8;font-size:18px}.wa-confirm-card .wa-sub{font-size:11px;color:#64828d;margin-top:3px}.wa-confirm-card .wa-message{margin-top:13px;padding:14px;border-radius:14px;background:#fff;border:1px solid #ccecf6;color:#234b58;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;line-height:1.7;white-space:pre-wrap}.night-theme .v10-duration .v10-pick{background:#123e52;color:#62d2fa;border-color:#286b84}.night-theme .payment-modern-note{background:#103246;border-color:#286b84;color:#a9d5e3}.night-theme .wa-confirm-card{background:linear-gradient(135deg,#0e2938,#123e52);border-color:#286b84}.night-theme .wa-confirm-card .wa-brand{color:#62d2fa}.night-theme .wa-confirm-card .wa-sub{color:#9cc5d4}.night-theme .wa-confirm-card .wa-message{background:#0b2431;border-color:#235d74;color:#cdebf5}
+.v10-duration .dur{font-weight:900;color:#087da8;font-size:17px}.v10-duration .price{display:block;font-size:22px;font-weight:900;color:#06202b;margin-top:7px}.v10-duration small{display:block;color:#71909a;margin-top:5px}
+.v10-best{position:absolute;top:10px;right:10px;padding:5px 8px;border-radius:999px;background:#ffcf4a;color:#4a3500;font-size:9px;font-weight:1000}
+.v10-dev-copy{margin-top:16px}
+#dashboardPromoPopup{position:fixed;top:12px;left:50%;transform:translateX(-50%) translateY(-150%);z-index:500;width:min(560px,calc(100% - 24px));padding:13px 14px;border-radius:18px;background:rgba(246,253,255,.97);border:1px solid rgba(42,172,220,.28);box-shadow:0 20px 55px rgba(5,77,103,.22);transition:transform .35s ease;display:flex;align-items:center;gap:10px}.dashboard-promo-open{transform:translateX(-50%) translateY(0)!important}.dashboard-promo-copy{flex:1;min-width:0}.dashboard-promo-copy b{display:block;color:#087da8;font-size:12px}.dashboard-promo-copy span{display:block;color:#163b47;font-size:12px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dashboard-promo-close{border:0;background:transparent;color:#52717e;font-size:20px;cursor:pointer;padding:4px 7px}.dashboard-promo-btn{border:0;cursor:pointer;white-space:nowrap;padding:9px 11px;border-radius:11px;background:#54ccf5;color:#063140;font-weight:900;font-size:10px}
+.v10-promo-top{margin:0 auto 16px;padding:11px 13px;border-radius:17px;background:linear-gradient(90deg,rgba(84,204,245,.16),rgba(255,214,102,.18));border:1px solid rgba(42,172,220,.2);display:flex;align-items:center;justify-content:space-between;gap:10px;color:#163b47}
+.v10-promo-top b{color:#087da8}.v10-promo-code{font-weight:1000;letter-spacing:.5px}.v10-promo-top .copy{white-space:nowrap}
+.v10-info-card{padding:20px;border-radius:24px;background:rgba(255,255,255,.86);border:1px solid rgba(42,172,220,.18);box-shadow:0 14px 40px rgba(42,172,220,.08)}
+.v10-info-card h3{margin-top:0;color:#06202b}.v10-info-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.v10-info-item{padding:13px;border-radius:15px;background:rgba(84,204,245,.08);color:#52717e}.v10-info-item b{display:block;color:#087da8;margin-bottom:3px}
+@media(max-width:650px){.v10-duration-grid,.v10-info-list{grid-template-columns:1fr}.v10-promo-top{align-items:flex-start;flex-direction:column}.v10-promo-top .copy{width:100%}.v10-nav{grid-template-columns:1fr 1fr}}
+</style>
+<style id="v11-theme-style">
+/* V11 THEME: non-glass UI + DAY/NIGHT MODE */
+:root{
+  --day-bg:#dff5ff;--day-surface:#eaf9ff;--day-surface2:#f5fcff;--day-blue:#55c9f2;--day-blue2:#2aa9d7;--day-ink:#103847;
+  --night-bg:#06131d;--night-surface:#0b2230;--night-surface2:#0e2b3a;--night-blue:#4dbde8;--night-blue2:#2295c5;--night-ink:#d9f5ff;
+}
+/* Hilangkan efek kaca/buram. Semua panel utama dibuat solid. */
+.dashboard-card,.dashboard-card:before,.dev-card,.v5-announcement,.v5-info,.v5-package,.v5-payment-card,.config-note,.video-thumb-panel,.card,.panel,.summary,.pay,.step,.v10-head,.v10-duration,.v10-info-card,.v10-info-item,.bot-card,.promo-box,.promo-item,.copy-code b,.payment-check,.payment-only .copy-big,.modal-box,.dev-bio,.dev-link,.v5-kicker,.btn.secondary{
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+}
+body:not(.night-theme){
+  background-image:url("https://u.pone.rs/jrgeaudo.jpg");
+  background-position:center top;background-size:cover;background-attachment:fixed;background-repeat:no-repeat;
+  background-color:var(--day-bg);color:var(--day-ink);
+}
+body:not(.night-theme) .dashboard-card{background:#e8f8ff;box-shadow:0 24px 65px rgba(15,92,120,.18)}
+body:not(.night-theme) .dashboard-card:before{display:none}
+body:not(.night-theme) .video-thumb-panel{background:#d7f2fc}
+body:not(.night-theme) .dev-card{background:#e7f7fd}
+body:not(.night-theme) .dev-bio{background:#f4fcff}
+body:not(.night-theme) .dev-link{background:#f7fdff}
+body:not(.night-theme) .v5-announcement,.v5-info,.v5-package,.v5-payment-card{background:#f2fbff}
+body:not(.night-theme) .v10-head,.v10-info-card{background:#eefaff}
+body:not(.night-theme) .v10-duration,.v10-info-item{background:#f7fdff}
+body:not(.night-theme) .card{background:#f3fbff}
+body:not(.night-theme) .panel,body:not(.night-theme) .summary,body:not(.night-theme) .pay,body:not(.night-theme) .step{background:#f2fbff}
+body:not(.night-theme) .duration-btn{background:#f7fdff}
+body:not(.night-theme) input,body:not(.night-theme) select{background:#fbfeff}
+body:not(.night-theme) .modal-box{background:#f2fbff}
+body:not(.night-theme) .promo-box,body:not(.night-theme) .promo-item,body:not(.night-theme) .copy-code b,body:not(.night-theme) .payment-check,body:not(.night-theme) .payment-only .copy-big{background:#f7fdff}
+
+#themeSwitcher{position:fixed;right:12px;top:12px;z-index:700;display:flex;gap:5px;padding:5px;border-radius:14px;background:#eaf9ff;border:1px solid #7dd8f5;box-shadow:0 10px 25px rgba(20,110,145,.2)}
+#themeSwitcher button{border:0;border-radius:10px;padding:7px 9px;font-size:10px;font-weight:900;cursor:pointer;background:transparent;color:#17647c}
+#themeSwitcher button.active{background:#55c9f2;color:#06202b}
+
+body.night-theme{background-image:linear-gradient(rgba(2,10,17,.28),rgba(2,10,17,.28)),url("https://u.pone.rs/jrgeaudo.jpg");background-position:center top;background-size:cover;background-attachment:fixed;background-repeat:no-repeat;background-color:var(--night-bg);color:var(--night-ink)}
+body.night-theme .dashboard-card{background:#0b202d;border-color:#24627a;box-shadow:0 24px 65px rgba(0,0,0,.45);color:var(--night-ink)}
+body.night-theme .dashboard-card:before{display:none}
+body.night-theme .video-thumb-panel,.night-theme .dev-card,.night-theme .v5-announcement,.night-theme .v5-info,.night-theme .v5-package,.night-theme .v5-payment-card,.night-theme .v10-head,.night-theme .v10-info-card,.night-theme .v10-duration,.night-theme .v10-info-item,.night-theme .card,.night-theme .panel,.night-theme .summary,.night-theme .pay,.night-theme .step,.night-theme .promo-box,.night-theme .promo-item,.night-theme .copy-code b,.night-theme .payment-check,.night-theme .payment-only .copy-big,.night-theme .dev-bio,.night-theme .dev-link{background:#0e2938;border-color:#235d74;color:#cdebf5}
+body.night-theme .v10-head p,body.night-theme .v5-announcement,body.night-theme .v5-info small,body.night-theme .v5-package p,body.night-theme .dev-watermark,body.night-theme .dev-bio,body.night-theme .title p,body.night-theme .features,body.night-theme .v10-duration small{color:#9cc5d4}
+body.night-theme .dashboard-top h1,body.night-theme .v10-head h2,body.night-theme .v10-duration .price,body.night-theme .v10-info-card h3,body.night-theme .card h3,body.night-theme .bot-body h3{color:#dff8ff}
+body.night-theme .dashboard-top>p{color:#9cc5d4}
+body.night-theme .v5-section-title,body.night-theme .v5-section-title small,body.night-theme .v5-info b,body.night-theme .v5-package h3,body.night-theme .v5-payment-card b,body.night-theme .v10-duration .dur,.night-theme .dev-name{color:#62d2fa}
+body.night-theme .v5-kicker{background:#12384a;border-color:#286b84;color:#62d2fa}
+body.night-theme .v10-promo-top{background:#103447;border-color:#286b84;color:#cdebf5}
+body.night-theme .v10-promo-top b{color:#62d2fa}
+body.night-theme .btn.secondary{background:#102f40;color:#62d2fa;border-color:#286b84}
+body.night-theme #dashboardPromoPopup{background:#0d2938;border-color:#286b84;color:#d7f4ff}
+body.night-theme .dashboard-promo-copy b{color:#62d2fa}
+body.night-theme .dashboard-promo-copy span{color:#b9dce8}
+body.night-theme #themeSwitcher{background:#0b2635;border-color:#286b84;box-shadow:0 10px 25px rgba(0,0,0,.4)}
+body.night-theme #themeSwitcher button{color:#a9d6e5}
+body.night-theme #themeSwitcher button.active{background:#257fa5;color:#e5faff}
+body.night-theme input,body.night-theme select{background:#09202d;color:#d8f3fb;border-color:#286b84}
+body.night-theme input::placeholder{color:#7199a8}
+body.night-theme .modal{background:rgba(1,8,14,.78);backdrop-filter:none}
+body.night-theme .modal-box{background:#0d2938;border-color:#286b84;color:#cdebf5}
+body.night-theme .close{background:#12384a;color:#62d2fa;border-color:#286b84}
+body.night-theme .bot-card{background:#0e2938;border-color:#286b84}
+body.night-theme .bot-row{border-top-color:#1b4d63}
+body.night-theme .bot-row span{color:#86adbc}
+body.night-theme #loadingScreen{background:radial-gradient(circle at 50% 48%,rgba(60,190,240,.12),transparent 30%),linear-gradient(135deg,#06121c,#092536 52%,#071923)}
+
+@media(max-width:650px){#themeSwitcher{top:8px;right:8px}.dashboard-card{border-radius:24px}.v10-head{border-radius:22px}}
+</style>
+<script>
+
+/* ============================================================
+   ZAVIER MD V6 — CONFIG MUDAH DIEDIT DI QUICK EDIT
+   UBAH TEKS/HARGA/STATUS/LINK HANYA DI BAGIAN INI.
+   ============================================================ */
+const ZAVIER_CONFIG = {
+  /* ============================================================
+     ⚙️ QUICK EDIT — ZAVIER MD V8
+     UBAH DATA DI BAGIAN INI SAJA.
+     Jangan mengubah nama property seperti admin / prices / bots.
+     ============================================================ */
+
+  /* ---------- 👤 ADMIN & PEMBAYARAN ---------- */
+  admin: {
+    wa: "6283857053843",       // WA ADMIN, TANPA +
+    dana: "083857053843",      // NOMOR DANA
+    danaName: "MXXX SXXX"      // NAMA PEMILIK DANA
+  },
+
+  payment: {
+    qrisImage: "https://u.pone.rs/yyungsjs.jpg" // LINK GAMBAR QRIS
+  },
+
+  /* ---------- 🤖 DATA BOT ---------- */
+  bots: [
+    {
+      active: true,                           // true = AKTIF | false = OFFLINE
+      number: "62857-xxxx-1638",              // NOMOR BOT
+      name: "ᯓ❆ ᴢᴀᴠɪᴇʀ ᴍᴅ",                  // NAMA BOT
+      bener: "https://u.pone.rs/omtufbcg.jpg", // LINK BANNER
+      pp: "https://u.pone.rs/mknmffpz.jpg",    // LINK FOTO PROFIL
+      status: "AKTIF ⚡"                       // STATUS BOT
+    },
+    {
+      active: false,
+      number: "62838-xxxx-8334",
+      name: "ᯓ❆ ᴢᴀᴠɪᴇʀ ᴍᴅ II",
+      bener: "https://u.pone.rs/omtufbcg.jpg",
+      pp: "https://u.pone.rs/fqwbwjer.jpg",
+      status: "OFFLINE ⭕"
+    }
+  ],
+
+  /* ---------- 🏷️ CODE PROMO ---------- */
+  /* Format: "NAMA CODE": PERSEN DISKON */
+  promoCodes: {
+    "DHANYY RAJA IBLIS": 15
+    // "KODEBARU": 10,
+    // "PROMO5": 5
+  },
+
+  /* ---------- 💰 HARGA SEWA ---------- */
+  /* Contoh: Rp15.000 ditulis 15000 */
+  prices: {
+    "Basic": {
+      "1 Hari": 1000,
+      "7 Hari": 5000,
+      "30 Hari": 10000,
+      "Permanen": 15000
+    },
+    "Premium": {
+      "1 Hari": 2000,
+      "7 Hari": 7000,
+      "30 Hari": 12000,
+      "Permanen": 17000
+    },
+    "Premium Pro": {
+      "1 Hari": 3000,
+      "7 Hari": 9000,
+      "30 Hari": 15000,
+      "Permanen": 20000
+    }
+  },
+
+  /* ---------- ✍️ TEKS WEBSITE ---------- */
+  texts: {
+    loading: "MEMUAT ZAVIER MD...",
+    intro: "Dashboard sewa bot sudah siap. Pilih menu untuk melihat bot, paket, promo, pembayaran, dan informasi terbaru.",
+    paymentWarning: "PEMBAYARAN WAJIB SESUAI TOTAL. Konfirmasi hanya dilakukan setelah pembayaran benar-benar berhasil dan dapat diverifikasi admin.",
+    unpaidWarning: "Jangan menekan konfirmasi jika belum membayar. Tombol konfirmasi bukan bukti uang sudah masuk."
+  }
+};
+const prices = ZAVIER_CONFIG.prices;
+if(document.getElementById("introText")) document.getElementById("introText").textContent=ZAVIER_CONFIG.texts.intro;
+if(document.getElementById("paymentWarningText")) document.getElementById("paymentWarningText").textContent="⚠ "+ZAVIER_CONFIG.texts.paymentWarning;
+
+let order={product:"",duration:"",total:0,subtotal:0,payment:"",promoCode:"",discount:0,bot:"",proofName:""};
+
+function rupiah(n){return "Rp"+Number(n).toLocaleString("id-ID")}
+function populateBotSelect(){
+  const el=document.getElementById("botSelect"); if(!el)return;
+  const bots=Array.isArray(ZAVIER_CONFIG.bots)?ZAVIER_CONFIG.bots:[];
+  el.innerHTML='<option value="">Pilih bot yang ingin disewa</option>'+bots.map((b,i)=>`<option value="${i}" ${b.active?'':'disabled'}>${escapeHTML(b.name)} • ${escapeHTML(b.status)}</option>`).join('');
+}
+function previewPaymentProof(input){
+  const preview=document.getElementById("proofPreview");
+  if(!preview)return;
+  const file=input.files&&input.files[0];
+  if(!file){preview.style.display="none";preview.textContent="";order.proofName="";return;}
+  order.proofName=file.name;
+  preview.style.display="block";
+  preview.textContent=`✓ Bukti dipilih: ${file.name} • ${(file.size/1024).toFixed(1)} KB`;
+}
+function getSelectedBot(){
+  const el=document.getElementById("botSelect");
+  if(!el || el.value==="") return null;
+  return ZAVIER_CONFIG.bots[Number(el.value)]||null;
+}
+let toastTimer=null,toastTypeTimer=null;
+function toast(t){
+  const el=document.getElementById("toast"),textEl=document.getElementById("toastText");
+  if(!el||!textEl){console.info(t);return;}
+  clearTimeout(toastTimer);clearInterval(toastTypeTimer);
+  textEl.textContent="";el.classList.add("show");
+  const message=String(t);let i=0;
+  toastTypeTimer=setInterval(()=>{textEl.textContent+=message.charAt(i++);if(i>=message.length)clearInterval(toastTypeTimer)},22);
+  toastTimer=setTimeout(()=>{el.classList.remove("show");clearInterval(toastTypeTimer)},Math.max(2600,message.length*22+1000));
+}
+function openDuration(product){
+  window.currentDurationProduct=product;
+  const choices=prices[product];
+  document.getElementById("durationTitle").textContent="DURASI "+product.toUpperCase();
+  document.getElementById("durationChoices").innerHTML=Object.entries(choices).map(([d,p])=>`<button class="duration-btn" onclick="choose('${product}','${d}',${p})">${d}<b>${rupiah(p)}</b></button>`).join('');
+  openModal('durationModal');
+}
+function choose(product,duration,total){
+  order={product,duration,total,subtotal:total,payment:"",promoCode:"",discount:0,bot:"",proofName:""};
+  populateBotSelect();
+  const proof=document.getElementById("paymentProof"); if(proof) proof.value="";
+  const proofPreview=document.getElementById("proofPreview"); if(proofPreview){proofPreview.style.display="none";proofPreview.textContent="";}
+  document.getElementById("sumProduct").textContent=product;
+  document.getElementById("sumDuration").textContent=duration;
+  document.getElementById("sumTotal").textContent=rupiah(total);
+  const code=document.getElementById("promoCode"); if(code) code.value="";
+  const msg=document.getElementById("promoMessage"); if(msg) msg.innerHTML="";
+  closeModal('durationModal');
+  // Pastikan tidak ada modal lama yang menangkap sentuhan/input.
+  document.querySelectorAll('.modal.show').forEach(m=>m.classList.remove('show'));
+  openModal('dataModal');
+}
+
+function renderPromoList(){
+  const el=document.getElementById("promoList"); if(!el)return;
+  const e=Object.entries(ZAVIER_CONFIG.promoCodes);
+  el.innerHTML=e.length?e.map(([c,p])=>`<div class="promo-item">
+    <b>${escapeHTML(c)}</b><br><span class="promo-discount">Diskon ${p}%</span>
+    <br><button class="copy promo-copy" onclick='copyPromo(${JSON.stringify(c)})' >SALIN CODE</button>
+  </div>`).join(""):"<div class='promo-item'>Belum ada code promo aktif.</div>";
+}
+function openPromoPopup(){renderPromoList();openModal("promoModal")}function closePromoOutside(e){if(e.target.id==="promoModal")closeModal("promoModal")}
+function renderBotPage(){const g=document.getElementById("botGrid");if(!g)return;g.innerHTML=ZAVIER_CONFIG.bots.map((b,i)=>`<article class="bot-card"><img class="bot-banner" src="${escapeHTML(b.bener)}"><div class="bot-body"><div class="bot-head"><img class="bot-pp" src="${escapeHTML(b.pp)}"><div><h3>${escapeHTML(b.name)}</h3><span class="bot-status ${b.active?"":"bot-offline"}">${escapeHTML(b.status)}</span></div></div><div class="bot-row"><span>NOMOR</span><b>${escapeHTML(b.number)}</b></div><div class="bot-row"><span>NAMA</span><b>${escapeHTML(b.name)}</b></div><div class="bot-row"><span>STATUS</span><b>${escapeHTML(b.status)}</b></div></div></article>`).join("");}
+function openBotPage(){document.getElementById("botPage").style.display="block";document.getElementById("dashboardScreen").style.display="none";document.getElementById("productPage").style.display="none";document.getElementById("mainProducts").style.display="none";document.getElementById("siteFooter").style.display="none";renderBotPage();window.scrollTo({top:0,behavior:"smooth"})}
+function closeBotPage(){document.getElementById("botPage").style.display="none";document.getElementById("dashboardScreen").style.display="flex";window.scrollTo({top:0,behavior:"smooth"})}
+function backToDuration(){closeModal("dataModal");openDuration(order.product)}function backToPaymentChoice(){closeModal("payNowSection");openModal("paymentSection")}function backToPay(){closeModal("confirmSection");openModal("payNowSection")}
+function backToData(){closeModal("paymentSection");openModal("dataModal")}
+function backFromDurationModal(){closeModal("durationModal");const map={"Basic":2,"Premium":3,"Premium Pro":4};showPage(map[window.currentDurationProduct||order.product]||1)}
+
+function openModal(id){
+  document.querySelectorAll('.modal.show').forEach(m=>{
+    if(m.id!==id) m.classList.remove('show');
+  });
+  const modal=document.getElementById(id);
+  if(!modal) return;
+  modal.classList.add('show');
+  requestAnimationFrame(()=>{
+    const first=modal.querySelector('input:not([type="file"]), select, textarea');
+    if(first && first.id==='name') first.focus();
+  });
+}
+function closeModal(id){
+  const modal=document.getElementById(id);
+  if(modal) modal.classList.remove('show');
+}
+function updateUpgrade(){
+  const d=Math.max(1,Number(document.getElementById("upgradeDays").value||1));
+  document.getElementById("upgradeTotal").value=rupiah(d*500);
+}
+function selectUpgrade(){
+  const d=Math.max(1,Number(document.getElementById("upgradeDays").value||1));
+  choose("Upgrade Basic → Premium",d+" Hari",d*500);
+}
+function applyPromo(){
+  const input=document.getElementById("promoCode"),msg=document.getElementById("promoMessage");
+  const code=(input.value||"").trim().toUpperCase();
+  const discountPct=ZAVIER_CONFIG.promoCodes[code];
+  if(discountPct!=null){
+    order.promoCode=code; order.discount=Math.round(order.subtotal*(Number(discountPct)/100));
+    order.total=order.subtotal-order.discount;
+    document.getElementById("sumTotal").textContent=rupiah(order.total);
+    msg.className="promo-ok"; msg.textContent=`✓ ${code} aktif • Diskon ${discountPct}%`;
+    toast(`Promo ${discountPct}% berhasil dipakai`);
+  }else{
+    order.promoCode="";order.discount=0;order.total=order.subtotal;
+    document.getElementById("sumTotal").textContent=rupiah(order.total);
+    msg.className="promo-bad";msg.textContent="Code promo tidak valid.";
+  }
+}
+
+function goPayment(){
+  if(document.getElementById('paymentChoiceTotal')) document.getElementById('paymentChoiceTotal').textContent=rupiah(order.total);
+  if(!order.product){toast("Pilih produk dulu");return}
+  if(!document.getElementById("name").value.trim() || !document.getElementById("phone").value.trim()){
+    toast("Nama dan nomor WA wajib diisi");return
+  }
+  const selectedBot=getSelectedBot();
+  if(!selectedBot){toast("Pilih bot yang ingin disewa dulu");return}
+  order.bot=selectedBot.name;
+  closeModal('dataModal'); openModal('paymentSection');
+}
+function selectPayment(payment){
+  order.payment=payment; const content=document.getElementById("paymentOnlyContent");
+  if(payment==="DANA"){
+    content.innerHTML=`<div class="pay-title">💵 DANA</div>
+    <p style="color:var(--muted)">Transfer tepat sesuai total: <b style="color:var(--blue)">${rupiah(order.total)}</b></p>
+    <div class="copy-big">${escapeHTML(ZAVIER_CONFIG.admin.dana)}</div><p>A/N: ${escapeHTML(ZAVIER_CONFIG.admin.danaName)}</p>
+    <button class="copy" onclick="copyDana()">SALIN NOMOR DANA</button>`;
+  }else{
+    content.innerHTML=`<div class="pay-title">▣ QRIS</div>
+    <p style="color:var(--muted)">Bayar tepat <b style="color:var(--blue)">${rupiah(order.total)}</b> dengan scan QRIS.</p>
+    <img class="qris-payment" src="${escapeHTML(ZAVIER_CONFIG.payment.qrisImage)}" alt="QRIS">`;
+  }
+  content.innerHTML += `<div class="payment-check">
+    <label><input id="paymentAcknowledge" type="checkbox">
+    <span>Saya memahami bahwa konfirmasi hanya untuk pesanan yang <b>benar-benar sudah dibayar</b>. Saya tidak akan mengirim konfirmasi pembayaran palsu.</span></label>
+  </div>
+  <div class="pixel-warning">${escapeHTML(ZAVIER_CONFIG.texts.unpaidWarning)}</div>`;
+  closeModal('paymentSection'); openModal('payNowSection');
+}
+function paymentDone(){
+ const check=document.getElementById("paymentAcknowledge");
+ if(!check || !check.checked){
+   toast("Centang konfirmasi bahwa pembayaran benar-benar sudah dilakukan");
+   return;
+ }
+ const s=document.getElementById("finalSummary");
+ s.innerHTML=`<div class="row"><span>Produk</span><b>${escapeHTML(order.product)}</b></div>
+ <div class="row"><span>Durasi</span><b>${escapeHTML(order.duration)}</b></div>
+ <div class="row"><span>Nama</span><b>${escapeHTML(document.getElementById("name").value)}</b></div>
+ <div class="row"><span>Nomor WA</span><b>${escapeHTML(document.getElementById("phone").value)}</b></div>
+ <div class="row"><span>Bot</span><b>${escapeHTML(order.bot||"-")}</b></div>
+ <div class="row"><span>Payment</span><b>${escapeHTML(order.payment)}</b></div>
+ ${order.promoCode?`<div class="row"><span>Promo</span><b>${escapeHTML(order.promoCode)} (-${ZAVIER_CONFIG.promoCodes[order.promoCode]}%)</b></div>`:""}
+ <div class="row"><span>Harga awal</span><b>${rupiah(order.subtotal)}</b></div>
+ <div class="row total"><span>Total bayar</span><span>${rupiah(order.total)}</span></div>`;
+ closeModal('payNowSection'); openModal('confirmSection');
+}
+function escapeHTML(v){
+  return String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function copyDana(){
+  if(navigator.clipboard?.writeText){navigator.clipboard.writeText(ZAVIER_CONFIG.admin.dana).then(()=>toast("Nomor DANA disalin")).catch(()=>toast("Salin manual: "+ZAVIER_CONFIG.admin.dana));}else toast("Salin manual: "+ZAVIER_CONFIG.admin.dana);
+}
+function copyPromo(code){
+  if(navigator.clipboard?.writeText){navigator.clipboard.writeText(code).then(()=>toast("Code promo disalin")).catch(()=>toast("Salin manual: "+code));}else toast("Salin manual: "+code);
+}
+function sendWA(){
+  const proof=document.getElementById("paymentProof");
+  if(!proof || !proof.files || !proof.files[0]){toast("Upload bukti pembayaran terlebih dahulu");return}
+  const admin=ZAVIER_CONFIG.admin.wa;
+  const name=document.getElementById("name").value.trim();
+  const phone=document.getElementById("phone").value.trim();
+  const group=document.getElementById("group").value.trim();
+  const note=document.getElementById("note").value.trim();
+  const bot=order.bot||getSelectedBot()?.name||"-";
+  order.proofName=proof.files[0].name;
+  const text=
+`╭━━━━━━━━━━━━━━━━━━━━╮
+      ✦ ZAVIER MD ✦
+   KONFIRMASI PESANAN
+╰━━━━━━━━━━━━━━━━━━━━╯
+
+┌─ 🛒 DETAIL SEWA
+│ Produk   : ${order.product}
+│ Durasi   : ${order.duration}
+│ Bot      : ${bot}
+│ Payment  : ${order.payment}
+│ Total    : ${rupiah(order.total)}
+${order.promoCode ? `│ Promo    : ${order.promoCode} (-${ZAVIER_CONFIG.promoCodes[order.promoCode]}%)\n│ Harga Awal: ${rupiah(order.subtotal)}\n│ Diskon   : -${rupiah(order.discount)}\n` : ""}└────────────────────
+
+┌─ 👤 DATA PEMESAN
+│ Nama     : ${name}
+│ No. WA   : ${phone}
+│ Link Grup: ${group||"-"}
+│ Catatan  : ${note||"-"}
+└────────────────────
+
+┌─ 💳 PEMBAYARAN
+│ Status   : SUDAH DIBAYAR
+│ Bukti    : ${order.proofName}
+└────────────────────
+
+✓ Saya sudah melakukan pembayaran sesuai total.
+✓ Bukti pembayaran siap saya lampirkan di chat ini.
+
+Mohon bantu verifikasi pembayaran dan proses pesanan saya.
+Terima kasih 🙏
+
+      • ZAVIER MD •
+    MODERN RENTAL SERVICE`
+  order.adminMessage=text;
+  buildReceipt();
+  closeModal('confirmSection');
+  setTimeout(()=>openModal('receiptModal'),220);
+}
+function confirmToAdmin(){
+  const message=order.adminMessage;
+  if(!message){toast("Struk belum siap. Periksa data pesanan lalu coba lagi.");return;}
+  const admin=String(ZAVIER_CONFIG.admin.wa||"").replace(/\D/g,"");
+  if(!admin){toast("Nomor WhatsApp admin belum diatur.");return;}
+  const url="https://wa.me/"+admin+"?text="+encodeURIComponent(message);
+  const opened=window.open(url,"_blank");
+  if(!opened){window.location.href=url;}
+}
+function buildReceipt(){
+  const name=document.getElementById("name").value.trim();
+  const phone=document.getElementById("phone").value.trim();
+  const group=document.getElementById("group").value.trim();
+  const content=document.getElementById("receiptContent");
+  if(!content)return;
+  content.innerHTML=`<div class="wa-confirm-card"><div class="wa-brand">🧾 STRUK PESANAN SIAP</div><div class="wa-sub">Langkah 06 • Periksa struk sebelum menghubungi admin.</div><div class="wa-message">WhatsApp belum dibuka. Tekan tombol <b>KONFIRMASI KE ADMIN</b> di bawah jika data pesanan sudah benar. Lampirkan juga bukti pembayaran di chat.</div></div><div style="height:12px"></div><div class="receipt-modern">
+    <div class="receipt-brand">ZAVIER MD</div>
+    <div class="receipt-sub">MODERN RENTAL • BUKTI PESANAN</div>
+    <div class="receipt-row"><span>Produk</span><b>${escapeHTML(order.product)}</b></div>
+    <div class="receipt-row"><span>Durasi</span><b>${escapeHTML(order.duration)}</b></div>
+    <div class="receipt-row"><span>Bot</span><b>${escapeHTML(order.bot||"-")}</b></div>
+    <div class="receipt-row"><span>Nama</span><b>${escapeHTML(name)}</b></div>
+    <div class="receipt-row"><span>No. WA</span><b>${escapeHTML(phone)}</b></div>
+    <div class="receipt-row"><span>Payment</span><b>${escapeHTML(order.payment)}</b></div>
+    <div class="receipt-row"><span>Bukti</span><b>${escapeHTML(order.proofName||"-")}</b></div>
+    ${order.promoCode?`<div class="receipt-row"><span>Promo</span><b>${escapeHTML(order.promoCode)} • -${ZAVIER_CONFIG.promoCodes[order.promoCode]}%</b></div>`:""}
+    <div class="receipt-row"><span>Harga awal</span><b>${rupiah(order.subtotal)}</b></div>
+    ${order.discount?`<div class="receipt-row"><span>Diskon</span><b>-${rupiah(order.discount)}</b></div>`:""}
+    <div class="receipt-total">TOTAL BAYAR <span style="float:right">${rupiah(order.total)}</span></div>
+    <div class="receipt-sub" style="margin-top:12px">Grup: ${escapeHTML(group||"-")}<br>Struk ini adalah ringkasan pesanan. Status pembayaran tetap menunggu verifikasi admin.</div>
+  </div>`;
+}
+function downloadReceipt(){
+  const name=document.getElementById("name").value.trim();
+  const phone=document.getElementById("phone").value.trim();
+  const group=document.getElementById("group").value.trim();
+  const rows=[
+    ["Produk",order.product],["Durasi",order.duration],["Bot",order.bot||"-"],["Nama",name],["No. WA",phone],["Payment",order.payment],["Bukti",order.proofName||"-"],["Harga awal",rupiah(order.subtotal)],
+    ...(order.promoCode?[["Promo",`${order.promoCode} (-${ZAVIER_CONFIG.promoCodes[order.promoCode]}%)`]]:[]),
+    ...(order.discount?[["Diskon",`-${rupiah(order.discount)}`]]:[]),["TOTAL BAYAR",rupiah(order.total)],["Link Grup",group||"-"]
+  ];
+  const rowHTML=rows.map(r=>`<div class="row"><span>${escapeHTML(r[0])}</span><b>${escapeHTML(r[1])}</b></div>`).join("");
+  const html=`<!doctype html><html lang="id"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Struk Zavier MD</title><style>body{margin:0;background:#eaf8fd;font-family:Arial,sans-serif;color:#173c48;padding:22px}.receipt{max-width:520px;margin:auto;background:#f7fdff;border:1px solid #9cddf3;border-radius:24px;padding:24px;box-shadow:0 20px 60px #087da822}.brand{font-size:24px;font-weight:900;letter-spacing:2px;color:#087da8}.sub{font-size:12px;color:#6b8790;margin:5px 0 18px}.row{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid #ccecf6;font-size:14px}.row span{color:#67818a}.row b{text-align:right}.total{margin-top:14px;padding:15px;border-radius:15px;background:#dff6ff;color:#087da8;font-size:18px;font-weight:900}.foot{margin-top:16px;font-size:12px;color:#6b8790;line-height:1.6}</style><div class="receipt"><div class="brand">ZAVIER MD</div><div class="sub">MODERN RENTAL • STRUK PEMBELIAN</div>${rowHTML}<div class="foot">Status: Menunggu verifikasi admin.<br>Terima kasih telah memilih Zavier MD.</div></div></html>`;
+  const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download="struk-zavier-md.html";document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  toast("Struk modern berhasil diunduh");
+}
+function finishOrder(){closeModal('receiptModal');openModal('thanksModal')}
+
+let load=0;
+const cloudStage=document.getElementById("cloudStage");
+if(cloudStage){
+  cloudStage.classList.add("v9-fast");
+  const count=document.createElement("div");
+  count.className="v9-cloud-count";
+  count.textContent="0 / 100 AWAN TERKUMPUL";
+  cloudStage.appendChild(count);
+
+  let gathered=0;
+  const gatherInterval=setInterval(()=>{
+    gathered++;
+    load=gathered;
+    document.getElementById("loaderFill").style.width=gathered+"%";
+    document.getElementById("loaderPercent").textContent=gathered+"%";
+    count.textContent=gathered+" / 100 AWAN TERKUMPUL";
+
+    if(gathered===60){
+      cloudStage.classList.add("gather");
+      document.getElementById("loaderText").textContent="AWAN BERGERAK KE TENGAH...";
+    }
+    if(gathered===80){
+      cloudStage.classList.add("v9-center");
+      document.getElementById("loaderText").textContent="AWAN MENYATU DENGAN BLACK HOLE...";
+    }
+    if(gathered>=100){
+      clearInterval(gatherInterval);
+      document.getElementById("loaderText").textContent="100 AWAN TERKUMPUL • BLACK HOLE BURST!";
+      cloudStage.classList.add("burst");
+      setTimeout(()=>{
+        const l=document.getElementById("loadingScreen");
+        l.style.opacity="0";
+        setTimeout(()=>{
+          l.remove();
+          document.getElementById("introScreen").style.display="flex";
+        },350);
+      },550);
+    }
+  },45);
+}
+
+
+/* ================= V11 THEME MODE ================= */
+function setSiteTheme(mode){
+  const night=mode==='night';
+  document.body.classList.toggle('night-theme',night);
+  localStorage.setItem('zavier-theme',night?'night':'day');
+  document.getElementById('dayThemeBtn')?.classList.toggle('active',!night);
+  document.getElementById('nightThemeBtn')?.classList.toggle('active',night);
+}
+(function initSiteTheme(){
+  const saved=localStorage.getItem('zavier-theme')||'day';
+  setSiteTheme(saved);
+})();
+
+/* ================= V10 PAGE SYSTEM ================= */
+function showPage(n){
+  const dash=document.getElementById('dashboardScreen');
+  const pages=document.querySelectorAll('.v10-page');
+  const legacy=['productPage','mainProducts','productHub','botPage','siteFooter'];
+  legacy.forEach(id=>{const el=document.getElementById(id);if(el){if(id==='siteFooter')el.style.display='none';else if(id==='productHub')el.classList.remove('active');else el.style.display='none';}});
+  pages.forEach(x=>x.classList.remove('active'));
+  if(n===1){dash.style.display='flex';window.scrollTo({top:0,behavior:'smooth'});setTimeout(openDashboardPromo,250);return;}
+  dash.style.display='none';
+  const page=document.getElementById('page'+n);if(page){page.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+}
+function renderV10Durations(){
+  document.querySelectorAll('[data-v10-product]').forEach(grid=>{
+    const product=grid.dataset.v10Product, data=ZAVIER_CONFIG.prices[product]||{};
+    grid.innerHTML=Object.entries(data).map(([duration,price],i)=>{
+      const best=duration==='7 Hari' ? '<span class="v10-best">🔥 TERLARIS</span>' : '';
+      return `<button type="button" class="v10-duration" onclick="v10ChooseDuration(${JSON.stringify(product)},${JSON.stringify(duration)},${Number(price)})">${best}<span class="dur">${duration}</span><span class="price">${rupiah(price)}</span><small>Siap dipilih untuk lanjut ke isi data</small><span class="v10-pick">PILIH</span></button>`;
+    }).join('');
+  });
+}
+function v10ChooseDuration(product,duration,price){
+  // Tombol PILIH pada halaman produk langsung masuk ke pop-up isi data.
+  // Tidak membuka modal durasi kedua agar alurnya tidak macet/tertimpa.
+  if(typeof window.choose==='function'){
+    window.choose(product,duration,Number(price));
+  }else{
+    toast('Fitur pembelian belum siap, coba muat ulang halaman.');
+  }
+}
+function updateV10Upgrade(){
+  const d=Math.max(1,Number(document.getElementById('v10UpgradeDays')?.value||1));
+  const el=document.getElementById('v10UpgradeTotal');if(el)el.value=rupiah(d*500);
+}
+function selectV10Upgrade(){
+  const d=Math.max(1,Number(document.getElementById('v10UpgradeDays')?.value||1));
+  if(typeof choose==='function') choose('Upgrade Basic → Premium',d+' Hari',d*500);
+}
+function copyDashboardPromo(){
+  const entries=Object.entries(ZAVIER_CONFIG.promoCodes||{});if(!entries.length){toast('Belum ada promo aktif');return;}
+  copyPromo(entries[0][0]);
+}
+function renderDashboardPromo(){
+  const codeEl=document.getElementById('dashboardPromoCode'), discEl=document.getElementById('dashboardPromoDiscount');
+  const popupText=document.getElementById('dashboardPopupText');
+  const entries=Object.entries(ZAVIER_CONFIG.promoCodes||{});if(!codeEl)return;
+  if(!entries.length){codeEl.textContent='BELUM ADA';if(discEl)discEl.textContent='';if(popupText)popupText.textContent='Belum ada kode promo aktif.';return;}
+  codeEl.textContent=entries[0][0];if(discEl)discEl.textContent='• Diskon '+entries[0][1]+'%';
+  if(popupText)popupText.textContent=entries[0][0]+' • Diskon '+entries[0][1]+'%';
+}
+function closeDashboardPromo(){document.getElementById('dashboardPromoPopup')?.classList.remove('dashboard-promo-open');}
+function openDashboardPromo(){if(document.getElementById('dashboardScreen')?.style.display!=='none')document.getElementById('dashboardPromoPopup')?.classList.add('dashboard-promo-open');}
+window.addEventListener('load',()=>{renderV10Durations();renderDashboardPromo();updateV10Upgrade();setTimeout(openDashboardPromo,900);});
+
+function enterDashboard(){const intro=document.getElementById("introScreen");intro.style.opacity="0";intro.style.transition="opacity .35s";setTimeout(()=>{intro.remove();document.getElementById("dashboardScreen").style.display="flex";window.scrollTo(0,0);},350);}
+function enterProducts(){document.getElementById("botPage").style.display="none";document.getElementById("dashboardScreen").style.display="none";document.getElementById("productPage").style.display="flex";document.getElementById("mainProducts").style.display="block";document.getElementById("siteFooter").style.display="block";startMusic();window.scrollTo({top:0,behavior:"smooth"})}
+function backDashboard(){document.getElementById("botPage").style.display="none";document.getElementById("dashboardScreen").style.display="flex";document.getElementById("productPage").style.display="none";document.getElementById("mainProducts").style.display="none";document.getElementById("siteFooter").style.display="none";window.scrollTo({top:0,behavior:"smooth"})}
+function openFlow(){document.getElementById("flowModal").classList.add("show")}function closeFlow(){document.getElementById("flowModal").classList.remove("show")}function closeFlowOutside(e){if(e.target.id==="flowModal")closeFlow()}
+['durationModal','dataModal','paymentSection','payNowSection','confirmSection','thanksModal','receiptModal','promoModal'].forEach(id=>{document.getElementById(id)?.addEventListener('click',e=>{if(e.target.id===id)closeModal(id)})})
+const music=document.getElementById("bgMusic");function startMusic(){if(!music)return;music.play().then(()=>document.getElementById("musicBtn").textContent="PAUSE").catch(()=>document.getElementById("musicBtn").textContent="PLAY")}function toggleMusic(){if(!music)return;if(music.paused)music.play().then(()=>document.getElementById("musicBtn").textContent="PAUSE").catch(()=>{});else{music.pause();document.getElementById("musicBtn").textContent="PLAY"}}window.addEventListener("load",startMusic);
+
+const videoThumbs=["https://u.pone.rs/axtpvlgo.mp4","https://u.pone.rs/myvajnsa.mp4","https://u.pone.rs/chmzqkor.mp4","https://u.pone.rs/eykqcpwk.mp4","https://u.pone.rs/tfcobcci.mp4"];
+let videoThumbIndex=0;
+function nextVideoThumb(){const video=document.getElementById("randomVideoThumb"),meta=document.getElementById("videoThumbMeta");if(!video)return;videoThumbIndex=(videoThumbIndex+1)%videoThumbs.length;video.src=videoThumbs[videoThumbIndex];video.load();video.play().catch(()=>{});if(meta)meta.textContent="VIDEO #"+(videoThumbIndex+1)+" • BERGANTI SETIAP 1 MENIT";}
+(function initVideoThumb(){const video=document.getElementById("randomVideoThumb");if(!video)return;video.src=videoThumbs[0];video.play().catch(()=>{});setInterval(nextVideoThumb,60000);})();
+
+/* ================= V14 STABLE PRODUCT NAVIGATION ================= */
+(function(){
+  function money(n){return "Rp"+Number(n||0).toLocaleString("id-ID");}
+  function hideLegacyPages(){
+    ["productPage","mainProducts","botPage","siteFooter"].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.style.display="none";
+    });
+    document.querySelectorAll(".v10-page").forEach(x=>x.classList.remove("active"));
+  }
+  window.openProductHub=function(){
+    hideLegacyPages();
+    const dash=document.getElementById("dashboardScreen"); if(dash) dash.style.display="none";
+    const h=document.getElementById("productHub"); if(!h)return;
+    h.classList.add("active");
+    const list=document.getElementById("v9ProductList"); if(list)list.style.display="";
+    document.querySelectorAll(".v9-product-page").forEach(x=>x.classList.remove("active"));
+    h.scrollIntoView({behavior:"smooth",block:"start"});
+  };
+  window.backToDashboard=function(){
+    const h=document.getElementById("productHub");if(h)h.classList.remove("active");
+    hideLegacyPages();
+    const dash=document.getElementById("dashboardScreen");if(dash)dash.style.display="flex";
+    window.scrollTo({top:0,behavior:"smooth"});
+  };
+  window.backToProductHub=function(){
+    document.querySelectorAll(".v9-product-page").forEach(x=>x.classList.remove("active"));
+    const list=document.getElementById("v9ProductList");if(list)list.style.display="";
+    const h=document.getElementById("productHub");
+    if(h){h.classList.add("active");h.scrollIntoView({behavior:"smooth",block:"start"});}
+  };
+  window.openProductPage=function(key){
+    const page=document.querySelector('.v9-product-page[data-product="'+CSS.escape(String(key))+'"]');
+    if(!page){if(typeof toast==="function")toast("Halaman produk tidak ditemukan.");return;}
+    const list=document.getElementById("v9ProductList");if(list)list.style.display="none";
+    document.querySelectorAll(".v9-product-page").forEach(x=>x.classList.toggle("active",x===page));
+    page.scrollIntoView({behavior:"smooth",block:"start"});
+  };
+  function renderPlans(){
+    document.querySelectorAll("[data-plan-product]").forEach(grid=>{
+      const product=grid.dataset.planProduct;
+      const data=(window.ZAVIER_CONFIG&&ZAVIER_CONFIG.prices&&ZAVIER_CONFIG.prices[product])||{};
+      grid.innerHTML="";
+      Object.entries(data).forEach(([duration,price],i)=>{
+        const b=document.createElement("button");b.type="button";b.className="v9-plan";
+        b.innerHTML='<span class="plan-icon">'+["◷","◴","◵","∞"][i%4]+'</span><strong>'+duration+'</strong><b>'+money(price)+'</b><small>Pilih masa sewa →</small>';
+        b.addEventListener("click",()=>{
+          grid.querySelectorAll(".v9-plan").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");
+          const id=product==="Basic"?"v9SelectedBasic":product==="Premium"?"v9SelectedPremium":"v9SelectedPro";
+          const selected=document.getElementById(id);if(selected)selected.textContent=duration+" • "+money(price);
+          if(typeof window.choose==="function")window.choose(product,duration,Number(price));
+          else if(typeof toast==="function")toast("Fitur pembelian belum siap, coba muat ulang halaman.");
+        });
+        grid.appendChild(b);
+      });
+    });
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",renderPlans,{once:true});
+  else renderPlans();
+})();</script>
+
+<style id="v15-pick-button-fix">
+/* V15: pastikan kartu durasi berada di atas dekorasi/background dan menerima sentuhan */
+.v10-page.active, .v10-page.active * { pointer-events: auto; }
+.v10-duration { position: relative; z-index: 3; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: rgba(118,215,255,.25); }
+.v10-page.active .v10-duration { pointer-events: auto !important; }
+</style>
+<script id="v15-pick-button-fix-js">
+(function(){
+  function normalizeProduct(value){
+    const v=String(value||'').trim().toLowerCase();
+    if(v==='basic') return 'Basic';
+    if(v==='premium') return 'Premium';
+    if(v==='premium pro' || v==='pro' || v==='premiumpro') return 'Premium Pro';
+    return String(value||'').trim();
+  }
+  // Jalur langsung dari tombol PILIH; tidak bergantung pada inline onclick.
+  document.addEventListener('click', function(e){
+    const btn=e.target && e.target.closest ? e.target.closest('.v10-duration') : null;
+    if(!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const grid=btn.closest('[data-v10-product]');
+    const product=normalizeProduct(grid && grid.dataset.v10Product);
+    const dur=btn.querySelector('.dur');
+    const priceEl=btn.querySelector('.price');
+    const duration=dur ? dur.textContent.trim() : '';
+    const raw=priceEl ? priceEl.textContent.replace(/[^0-9]/g,'') : '';
+    const price=Number(raw);
+    if(!product || !duration || !Number.isFinite(price) || price<=0){
+      if(typeof window.toast==='function') window.toast('Paket belum terbaca. Muat ulang halaman lalu coba lagi.');
+      return;
+    }
+    if(typeof window.choose==='function'){
+      try { window.choose(product,duration,price); }
+      catch(err){ console.error('Zavier purchase flow:',err); if(typeof window.toast==='function') window.toast('Pop-up isi data gagal dibuka. Muat ulang halaman.'); }
+    } else if(typeof window.toast==='function') window.toast('Fitur pembelian belum siap. Muat ulang halaman.');
+  }, true);
+  // Pastikan fungsi yang dipanggil dari HTML selalu tersedia global.
+  window.v10ChooseDuration=function(product,duration,price){
+    const p=normalizeProduct(product);
+    if(typeof window.choose==='function') return window.choose(p,String(duration),Number(price));
+    if(typeof window.toast==='function') window.toast('Fitur pembelian belum siap. Muat ulang halaman.');
+  };
+})();
+</script>
+
+</body>
+</html>
